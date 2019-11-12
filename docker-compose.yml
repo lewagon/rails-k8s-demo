@@ -11,7 +11,7 @@ services:
         NODE_MAJOR: '11'
         YARN_VERSION: '1.13.0'
         BUNDLER_VERSION: '2.0.2'
-    image: rails-doks-demo:dev
+    image: rails-k8s-demo:dev
     tmpfs:
       - /tmp
 
