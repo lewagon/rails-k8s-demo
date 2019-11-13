@@ -11,8 +11,9 @@ compose:
 
 interaction:
   bash:
-    description: Open the Bash shell in app's container
+    description: Open the Bash shell in rails container
     service: rails
+    command: bash
     compose:
       run_options: [no-deps]
 
