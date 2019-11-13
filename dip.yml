@@ -42,7 +42,13 @@ interaction:
     description: Run Rails commands
     service: rails
     command: bundle exec rails
-    
+
+  psql:
+    description: Run Postgres psql console
+    service: rails
+    default_args: db_development
+    command: psql -h postgres -U postgres
+
 provision:
   - docker-compose down --volumes
   - dip bundle install

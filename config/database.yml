@@ -7,12 +7,12 @@ default: &default
 
 development:
   <<: *default
-  database: rails_k8s_demo_development
+  database: db_development
   url: <%= ENV['DATABASE_URL'] %>
 
 test:
   <<: *default
-  database: rails_k8s_demo_test
+  database: db_test
   url: <%= ENV['DATABASE_URL'] %>
 
 production:
