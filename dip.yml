@@ -1,0 +1,51 @@
+# Required minimum dip version
+version: '4.1'
+
+environment:
+  COMPOSE_EXT: development
+
+compose:
+  files:
+    - docker/docker-compose.yml
+  project_name: rails-k8s-demo
+
+interaction:
+  bash:
+    description: Open the Bash shell in app's container
+    service: rails
+    compose:
+      run_options: [no-deps]
+
+  bundle:
+    description: Run Bundler commands
+    service: rails
+    command: bundle
+
+  yarn:
+    description: Run Yarn commands
+    service: rails
+    command: yarn
+
+  rake:
+    description: Run Rake commands
+    service: rails
+    command: bundle exec rake
+
+  rspec:
+    description: Run Rspec commands
+    service: rails
+    environment:
+      RAILS_ENV: test
+    command: bundle exec rspec
+
+  rails:
+    description: Run Rails commands
+    service: rails
+    command: bundle exec rails
+    
+provision:
+  - docker-compose down --volumes
+  - dip bundle install
+  - dip yarn install
+  - docker-compose up -d
+  - dip rails db:create

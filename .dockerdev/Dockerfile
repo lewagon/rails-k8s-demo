@@ -1,5 +1,4 @@
 ARG RUBY_VERSION
-# See explanation below
 FROM ruby:$RUBY_VERSION
 
 ARG PG_MAJOR
@@ -42,11 +41,11 @@ ENV BUNDLE_APP_CONFIG=$BUNDLE_PATH \
   BUNDLE_BIN=$BUNDLE_PATH/bin
 ENV PATH /app/bin:$BUNDLE_BIN:$PATH
 
+WORKDIR /app
+
+COPY Gemfile ./Gemfile
+COPY package.json ./package.json
+
 # Upgrade RubyGems and install required Bundler version
 RUN gem update --system && \
     gem install bundler:$BUNDLER_VERSION
-
-# Create a directory for the app code
-RUN mkdir -p /app
-
-WORKDIR /app
