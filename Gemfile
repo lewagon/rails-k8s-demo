@@ -39,6 +39,7 @@ group :development do
   gem "listen", ">= 3.0.5", "< 3.2"
   gem "httplog"
   gem "rspec", "~> 3.9"
+  gem "pry-rails"
 end
 
 group :test do
