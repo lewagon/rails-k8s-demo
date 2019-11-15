@@ -6,7 +6,7 @@ environment:
 
 compose:
   files:
-    - docker/docker-compose.yml
+    - docker-compose.yml
   project_name: rails-k8s-demo
 
 interaction:

@@ -1,6 +1,9 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # Docker will expose port on one of those subnets, so we permit them
+  config.web_console.permissions = ['10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16']
+
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
