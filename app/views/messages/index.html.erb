@@ -1,0 +1,13 @@
+<p>
+  Welcome <%= Current.username %>! <%= link_to "Log Out", login_path, method: :delete %>
+</p>
+
+<%= form_with model: Message.new do |f| %>
+  <%= f.text_field :content %>
+  <%= f.select :delay, [1000, 2000, 3000, 5000] %>
+  <%= f.submit %>
+<% end %>
+
+<section>
+  <%= render @messages %>
+</section>

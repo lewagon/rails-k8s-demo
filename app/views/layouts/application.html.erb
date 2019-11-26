@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>ReviewScraper</title>
+    <title>Le Wagon x Digital Ocean Rails k8s demo</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -10,6 +10,13 @@
   </head>
 
   <body>
-    <%= yield %>
+    <main class="container mt-4">
+      <h1>Le Wagon x Digital Ocean Rails-k8s Demo</h1>
+      <% if flash[:alert] %>
+        <p><%= flash[:alert] %></p>
+      <% end %>
+
+      <%= yield %>
+    </main>
   </body>
 </html>
