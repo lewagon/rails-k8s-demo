@@ -2,12 +2,24 @@
   Welcome <%= Current.username %>! <%= link_to "Log Out", login_path, method: :delete %>
 </p>
 
-<%= form_with model: Message.new do |f| %>
-  <%= f.text_field :content %>
-  <%= f.select :delay, [1000, 2000, 3000, 5000] %>
-  <%= f.submit %>
+<%= form_with model: Message.new, id: "chat_form" do |f| %>
+  <div class="form-row">
+    <div class="col">
+      <%= f.text_field :content, class: "form-control", placeholder: "Hi..." %>
+    </div>
+    <div class="col">
+      <%= f.select :delay,
+                   [1000, 2000, 3000, 5000],
+                   { selected: 1000 },
+                   { class: "custom-select" }
+      %>
+    </div>
+    <div class="col">
+      <%= f.submit class: "btn btn-primary" %>
+    </div>
+  </div>
 <% end %>
 
-<section>
+<section class="mt-3">
   <%= render @messages %>
 </section>

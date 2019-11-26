@@ -10,8 +10,8 @@ class MessagesController < ApplicationController
     if @message.save
         DelayMessageJob.set(wait: delay_secs.seconds)
                        .perform_later(@message.id)
-        redirect_to messages_path
     end
+    redirect_to messages_path
   end
 
   private
