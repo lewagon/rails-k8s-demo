@@ -1,5 +1,5 @@
 # Required minimum dip version
-version: '4.1'
+version: "4.1"
 
 environment:
   COMPOSE_EXT: development
@@ -39,10 +39,36 @@ interaction:
       RAILS_ENV: test
     command: bundle exec rspec
 
+  sidekiq:
+    description: Run commands in sidekiq container
+    service: sidekiq
+    subcommands:
+      logs:
+        description: "Display last 50 lines of Sidekiq logs and follow"
+        compose:
+          method: logs
+          run_options: ["follow", "tail='50'"]
+
   rails:
     description: Run Rails commands
     service: rails
     command: bundle exec rails
+    subcommands:
+      logs:
+        description: Display last 50 lines of Rails logs and follow
+        compose:
+          method: logs
+          run_options: ["follow", "tail='50'"]
+
+  webpacker:
+    description: Run commands towards Webpacker service
+    service: webpacker
+    subcommands:
+      logs:
+        description: Display last 50 lines of Webpacker logs and follow
+        compose:
+          method: logs
+          run_options: ["follow", "tail='50'"]
 
   psql:
     description: Run Postgres psql console

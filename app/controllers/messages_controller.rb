@@ -1,17 +1,14 @@
 class MessagesController < ApplicationController
   def index
-    @messages = Message.displayed.order(id: :desc).last(20)
+    @messages = Message.displayed.last(20).reverse
   end
 
   def create
     @message = Message.new(message_params)
-    delay_secs = @message.delay / 1000.to_f
     @message.author = Current.username
     if @message.save
-        DelayMessageJob.set(wait: delay_secs.seconds)
-                       .perform_later(@message.id)
+        DelayMessageJob.perform_later(@message.id, @message.author)
     end
-    redirect_to messages_path
   end
 
   private

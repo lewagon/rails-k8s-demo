@@ -1,25 +1,22 @@
+<div data-controller="chat">
+
 <p>
   Welcome <%= Current.username %>! <%= link_to "Log Out", login_path, method: :delete %>
 </p>
 
-<%= form_with model: Message.new, id: "chat_form" do |f| %>
+<%= form_with model: Message.new,
+              id: "chat_form",
+              data: {
+                target: "chat.form"
+              } do |f|
+%>
   <div class="form-row">
-    <div class="col">
-      <%= f.text_field :content, class: "form-control", placeholder: "Hi..." %>
-    </div>
-    <div class="col">
-      <%= f.select :delay,
-                   [1000, 2000, 3000, 5000],
-                   { selected: 1000 },
-                   { class: "custom-select" }
-      %>
-    </div>
-    <div class="col">
-      <%= f.submit class: "btn btn-primary" %>
-    </div>
+    <%= f.text_field :content, class: "form-control", placeholder: "💬" %>
   </div>
 <% end %>
 
-<section class="mt-3">
+<div id="messages" data-target="chat.messages" class="mt-3">
   <%= render @messages %>
-</section>
+</div>
+
+</div>

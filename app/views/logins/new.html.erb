@@ -1,4 +1,10 @@
 <%= form_with url: login_path do |f| %>
-  <%= f.text_field :username %>
-  <%= f.submit %>
+  <div class="form-row">
+  <div class="col">
+    <%= f.text_field :username, class: "form-control" %>
+  </div>
+  <div class="col">
+    <%= f.submit "Set Username", class: "btn btn-primary" %>
+  </div>
+  </div>
 <% end %>

@@ -1,9 +1,21 @@
 class DelayMessageJob < ApplicationJob
   queue_as :default
 
-  def perform(message_id)
+  def perform(message_id, username)
     @message = Message.find(message_id)
-    @message.update(displayed: true)
-    Sidekiq.logger.info "#{@message.content} shown afer #{@message.delay} ms delay"
+    broadcast_message
+  end
+
+  private
+
+  def broadcast_message
+    ActionCable.server.broadcast(
+      "messages",
+      id: @message.id,
+      html: ApplicationController.renderer.render(
+        partial: "messages/message",
+        locals: { message: @message }
+      )
+    )
   end
 end
