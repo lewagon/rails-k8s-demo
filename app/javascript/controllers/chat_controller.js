@@ -33,6 +33,7 @@ export default class extends Controller {
   connect() {
     console.log("Stimulus chat controller up");
     subscribeConsumerWithStimulusContext(this);
+    this.messagesTarget.lastElementChild.scrollIntoView();
   }
 
   insertMessage(message) {
