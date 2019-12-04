@@ -1,3 +1,17 @@
-<p class="bg-light" id="message-<%= message.id %>">
-  <%= message.content %> from <%= message.author %>
-</p>
+<%= flex_position(message) do %>
+  <div class="message-box bg-light my-2 p-3 w-75 shadow-sm rounded border"
+       id="message-<%= message.id %>">
+    <div class="text-break">
+      <%= message.content %>
+      <p class="text-right">
+        <small class="text-muted">
+          <%= message.author %>
+          <%= l(message.created_at, format: :short) %>
+        </small>
+      </p>
+    </div>
+    <div class="previews">
+    <%= render message.previews %>
+    </div>
+  </div>
+<% end %>

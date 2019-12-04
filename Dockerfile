@@ -18,8 +18,8 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
   && echo 'deb http://dl.yarnpkg.com/debian/ stable main' > /etc/apt/sources.list.d/yarn.list
 
 # Install dependencies
-# Put all dev dependencies (e.g, vim) in .dockerdev/Aptfile
-COPY .dockerdev/Aptfile /tmp/Aptfile
+# Put all dev dependencies (e.g, vim) in /Aptfile
+COPY ./Aptfile /tmp/Aptfile
 RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrade && \
   DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
     build-essential \

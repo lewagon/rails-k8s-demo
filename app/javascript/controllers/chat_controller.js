@@ -4,7 +4,7 @@ import consumer from "channels/consumer";
 function subscribeConsumerWithStimulusContext(ctx) {
   consumer.subscriptions.create("MessagesChannel", {
     connected() {
-      console.log("Hello from AC");
+      console.log("Hello from AC!");
     },
 
     disconnected() {
@@ -12,9 +12,17 @@ function subscribeConsumerWithStimulusContext(ctx) {
     },
 
     received(message) {
-      console.log(message);
-      ctx.insertMessage(message);
-      ctx.clearForm();
+      switch (message.type) {
+        case "message":
+          console.log(message);
+          ctx.insertMessage(message);
+          ctx.clearForm();
+          break;
+        case "preview":
+          console.log(message);
+          ctx.insertPreview(message);
+          break;
+      }
     }
   });
 }
@@ -28,10 +36,24 @@ export default class extends Controller {
   }
 
   insertMessage(message) {
-    this.messagesTarget.insertAdjacentHTML("afterbegin", message.html);
+    this.messagesTarget.insertAdjacentHTML("beforeend", message.html);
+    const username = this.data.get("username");
+    const lastMessageRow = document.getElementById(`message-${message.id}`)
+      .parentElement;
+    if (message.author == username) {
+      lastMessageRow.classList.replace("flex-row", "flex-row-reverse");
+    }
+    lastMessageRow.scrollIntoView();
   }
 
-  insertPreview(preview) {}
+  insertPreview(preview) {
+    const message = document.getElementById(`message-${preview.message_id}`);
+    if (message) {
+      const previews = message.querySelector(".previews");
+      previews.insertAdjacentHTML("afterbegin", preview.html);
+      message.scrollIntoView();
+    }
+  }
 
   clearForm() {
     this.formTarget.reset();

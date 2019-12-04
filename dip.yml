@@ -12,29 +12,29 @@ compose:
 interaction:
   bash:
     description: Open the Bash shell in rails container
-    service: rails
+    service: app
     command: bash
     compose:
       run_options: [no-deps]
 
   bundle:
     description: Run Bundler commands
-    service: rails
+    service: app
     command: bundle
 
   yarn:
     description: Run Yarn commands
-    service: rails
+    service: app
     command: yarn
 
   rake:
     description: Run Rake commands
-    service: rails
+    service: app
     command: bundle exec rake
 
   rspec:
     description: Run Rspec commands
-    service: rails
+    service: app
     environment:
       RAILS_ENV: test
     command: bundle exec rspec
@@ -42,43 +42,49 @@ interaction:
   sidekiq:
     description: Run commands in sidekiq container
     service: sidekiq
+    compose:
+      method: up
+      run_options: [detach]
     subcommands:
       logs:
-        description: "Display last 50 lines of Sidekiq logs and follow"
+        description: "Display last 200 lines of Sidekiq logs and follow"
         compose:
           method: logs
-          run_options: ["follow", "tail='50'"]
+          run_options: [follow, tail='200']
 
   rails:
     description: Run Rails commands
-    service: rails
+    service: app
     command: bundle exec rails
     subcommands:
       logs:
-        description: Display last 50 lines of Rails logs and follow
+        description: Display last 200 lines of Rails logs and follow
+        service: rails
         compose:
           method: logs
-          run_options: ["follow", "tail='50'"]
+          run_options: [follow, tail='200']
 
   webpacker:
     description: Run commands towards Webpacker service
     service: webpacker
     subcommands:
       logs:
-        description: Display last 50 lines of Webpacker logs and follow
+        description: Display last 200 lines of Webpacker logs and follow
         compose:
           method: logs
-          run_options: ["follow", "tail='50'"]
+          run_options: [follow, tail='200']
 
   psql:
     description: Run Postgres psql console
-    service: rails
+    service: app
     default_args: db_development
     command: psql -h postgres -U postgres
 
 provision:
   - docker-compose down --volumes
+  - docker-compose up -d postgres redis
+  - docker-compose up -d --build app
   - dip bundle install
   - dip yarn install
-  - docker-compose up -d
-  - dip rails db:create
+  - dip rails db:create db:migrate
+  - dip up -d webpacker rails sidekiq

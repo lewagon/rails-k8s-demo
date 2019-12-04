@@ -10,18 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_26_151620) do
+ActiveRecord::Schema.define(version: 2019_12_03_142803) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "messages", force: :cascade do |t|
     t.string "content"
-    t.integer "delay"
+    t.string "author"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "author"
-    t.boolean "displayed", default: false, null: false
   end
 
+  create_table "previews", force: :cascade do |t|
+    t.string "title"
+    t.string "url"
+    t.string "image_url"
+    t.text "description"
+    t.bigint "message_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["message_id"], name: "index_previews_on_message_id"
+  end
+
+  add_foreign_key "previews", "messages"
 end

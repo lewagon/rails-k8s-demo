@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   private
 
   def authenticate
-    if username = cookies.encrypted[:username].presence
+    if (username = cookies.encrypted[:username].presence)
       Current.username = username
     else
       redirect_to new_login_path

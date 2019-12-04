@@ -1,6 +1,6 @@
 require "test_helper"
 
-class MessageTest < ActiveSupport::TestCase
+class PreviewTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

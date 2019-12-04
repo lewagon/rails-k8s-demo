@@ -1,13 +1,13 @@
 class MessagesController < ApplicationController
   def index
-    @messages = Message.displayed.last(20).reverse
+    @messages = Message.includes(:previews).last(20)
   end
 
   def create
     @message = Message.new(message_params)
     @message.author = Current.username
     if @message.save
-        DelayMessageJob.perform_later(@message.id, @message.author)
+      DeliverMessageJob.perform_later(@message.id)
     end
   end
 

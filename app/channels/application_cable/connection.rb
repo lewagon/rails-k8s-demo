@@ -7,12 +7,13 @@ module ApplicationCable
     end
 
     private
-      def find_username
-        if username = cookies.encrypted[:username]
-          username
-        else
-          reject_unauthorized_connection
-        end
+
+    def find_username
+      if (username = cookies.encrypted[:username])
+        username
+      else
+        reject_unauthorized_connection
       end
+    end
   end
 end
