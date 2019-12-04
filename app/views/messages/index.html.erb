@@ -11,6 +11,9 @@
   <div id="chat_controls" class="p-4">
     <%= form_with model: Message.new,
                   id: "chat_form",
+                  html: {
+                    autocomplete: "off"
+                  },
                   data: {
                     target: "chat.form"
                   } do |f|
