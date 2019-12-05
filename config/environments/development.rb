@@ -4,6 +4,9 @@ Rails.application.configure do
   # Docker will expose port on one of those subnets, so we permit them
   config.web_console.permissions = ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
 
+  # Sadly, not documented anywhere, but required since Rails 6
+  config.hosts << ".ngrok.io"
+
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
