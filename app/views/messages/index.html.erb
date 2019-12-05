@@ -1,7 +1,23 @@
 <div id="chat" data-controller="chat" data-chat-username="<%= Current.username %>">
 
-  <div id="login" class="text-right py-3">
-    Logged in as <%= Current.username %>. <%= link_to "Log Out", login_path, method: :delete %>
+  <div id="navbar" class="text-right py-3 d-flex align-items-center justify-content-between">
+    <div class="d-flex">
+      <%= link_to "https://www.lewagon.com" do %>
+        <%= image_tag "wagon-logo", width: 50, class: "p-1" %>
+      <% end %>
+      <%= link_to "https://www.digitalocean.com" do %>
+        <%= image_tag "do-logo", width: 50, class: "p-1" %>
+      <% end %>
+    </div>
+    <div>
+      <p class="h3">
+        Rails on DOKS
+      </p>
+    </div>
+    <div>
+      <strong><%= Current.username %></strong> |
+       <%= link_to "Log Out", login_path, method: :delete %>
+    </div>
   </div>
 
   <div id="messages" data-target="chat.messages">
@@ -19,11 +35,11 @@
                   } do |f|
     %>
       <div class="form-row">
-        <div class="col-md-10">
+        <div class="col-10">
           <%= f.text_field :content, class: "form-control", placeholder: "💬" %>
         </div>
-        <div class="col-md-2">
-          <%= f.submit "Send", class: "btn btn-outline-primary" %>
+        <div class="col">
+          <%= f.submit "🚀", class: "btn btn-outline-primary" %>
         </div>
       </div>
     <% end %>

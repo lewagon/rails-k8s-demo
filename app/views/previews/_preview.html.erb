@@ -1,9 +1,11 @@
-<div id="preview-<%= preview.id %>" class="media mt-2">
+<div id="preview-<%= preview.id %>" class="preview-box media my-2">
   <%= image_tag preview.image_url, width: 64, class: "mr-2" if preview.image_url.present? %>
   <div class="media-body">
     <div>
       <%= link_to preview.title, preview.url, class: "text-decoration-none" %>
     </div>
-    <small class="text-secondary text-break"><%= preview.description %></small>
+    <small class="text-secondary text-break">
+      <%= preview.description %>
+    </small>
   </div>
 </div>

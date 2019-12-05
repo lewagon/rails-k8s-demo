@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Le Wagon x Digital Ocean Rails DOKS demo</title>
+    <title>Le Wago/Digital Ocean Rails DOKS demo</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload', defer: true %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>
-    <% if controller_name="messages" %>
-      <%= javascript_pack_tag 'chat', 'data-turbolinks-track': 'reload', defer: true %>
-    <% end %>
   </head>
 
   <body>

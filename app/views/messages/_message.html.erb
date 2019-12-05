@@ -1,6 +1,7 @@
 <%= flex_position(message) do %>
-  <div class="message-box bg-light my-2 p-3 w-75 shadow-sm rounded border"
-       id="message-<%= message.id %>">
+  <div class="message-box bg-light my-2 px-3 pt-3 shadow-sm rounded border"
+       id="message-<%= message.id %>"
+  >
     <div class="text-break">
       <%= message.content %>
       <p class="text-right">

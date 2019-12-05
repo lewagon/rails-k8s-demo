@@ -1,20 +1,2 @@
 @import "bootstrap";
-
-#chat {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-
-  #login {
-    flex: 1 1 auto;
-  }
-
-  #messages {
-    max-height: 80vh;
-    overflow-y: auto;
-  }
-
-  #chat_controls {
-    flex: 1 1 auto;
-  }
-}
+@import "chat";

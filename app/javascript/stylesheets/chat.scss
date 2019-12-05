@@ -1,0 +1,26 @@
+#chat {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  #navbar {
+    flex: auto;
+  }
+
+  #messages {
+    min-height: 75vh;
+    overflow-y: auto;
+  }
+
+  #chat_controls {
+    flex: 1 1 auto;
+  }
+}
+
+.message-box {
+  width: fit-content;
+}
+
+.preview-box {
+  max-width: 500px;
+}
