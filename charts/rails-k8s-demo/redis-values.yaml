@@ -1,6 +1,0 @@
-cluster:
-  enabled: false
-usePassword: false
-# By default, FLUSH and FLUSHALL are disabled in bitnami/redis chart
-master:
-  disableCommands: []

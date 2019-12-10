@@ -11,14 +11,13 @@ sidekiq:
 image:
   repository: quay.io/lewagon/rails-k8s-demo
   tag: latest
-  pullPolicy: Always # TODO: change to IfNotPresent to debug
+  pullPolicy: Always # TODO: change to IfNotPresent after debug?
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-# TODO: Should never appear here in full
-dbConnectionString: postgresql://doadmin:t2xq6i1ikm79jnjz@db-postgresql-ams3-12723-do-user-4791174-0.db.ondigitalocean.com:25060/defaultdb?sslmode=require
+dbConnectionString: false
 railsMasterKey: false
 
 serviceAccount:
@@ -77,3 +76,11 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+redis:
+  cluster:
+    enabled: false
+  usePassword: false
+  # By default, FLUSH and FLUSHALL are disabled in bitnami/redis chart
+  master:
+    disableCommands: []

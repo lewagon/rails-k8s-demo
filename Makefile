@@ -11,9 +11,11 @@ build-latest :
 	-t quay.io/lewagon/rails-k8s-demo:latest; \
 	docker push quay.io/lewagon/rails-k8s-demo:latest;
 
-upgrade-from-local:
+# DO_POSTGRES_URL needs to be set to the connection string in the shell
+upgrade-dev:
 	helm upgrade rails-k8s-demo charts/rails-k8s-demo --install \
-	--atomic --cleanup-on-fail
+	--atomic --cleanup-on-fail \
+	--set-string dbConnectionString=$(DO_POSTGRES_URL)
 
 # TODO: rename to build-latest-update-local ?
-build-upgrade-from-local: build-latest upgrade-from-local
+build-latest-upgrade-dev: build-latest upgrade-dev
