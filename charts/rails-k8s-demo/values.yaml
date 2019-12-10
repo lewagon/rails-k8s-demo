@@ -1,0 +1,79 @@
+# Default values for rails-k8s-demo.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+rails:
+  replicaCount: 1
+
+sidekiq:
+  replicaCount: 1
+
+image:
+  repository: quay.io/lewagon/rails-k8s-demo
+  tag: latest
+  pullPolicy: Always # TODO: change to IfNotPresent to debug
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+# TODO: Should never appear here in full
+dbConnectionString: postgresql://doadmin:t2xq6i1ikm79jnjz@db-postgresql-ams3-12723-do-user-4791174-0.db.ondigitalocean.com:25060/defaultdb?sslmode=require
+railsMasterKey: false
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+podSecurityContext:
+  {}
+  # fsGroup: 2000
+
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: demo.lewagon.co
+      paths: ["/"]
+
+  tls:
+    - secretName: tls-cert
+      hosts:
+        - demo.lewagon.co
+
+resources:
+  {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

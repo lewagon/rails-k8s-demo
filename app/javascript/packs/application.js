@@ -4,6 +4,13 @@ require("turbolinks").start();
 import "controllers";
 import "../stylesheets/application";
 
-// https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
-let vh = window.innerHeight * 0.01;
-document.documentElement.style.setProperty("--vh", `${vh}px`);
+// get the actual viewport height on mobile browsers
+window.addEventListener("DOMContentLoaded", event => {
+  const chat = document.querySelector("#chat");
+  const messagesContainer = document.querySelector("#messages-container");
+  const viewPortH = chat.getBoundingClientRect().height;
+  const windowH = window.innerHeight;
+  const browserUiBarsH = viewPortH - windowH;
+  chat.style.height = `calc(100vh - ${browserUiBarsH}px)`;
+  messagesContainer.style.height = `calc(70vh - ${browserUiBarsH}px)`;
+});

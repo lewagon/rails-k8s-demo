@@ -5,7 +5,7 @@ metadata:
 spec:
   acme:
     # Email address used for ACME registration
-    email: andrey@lewagon.org
+    email: andrey@lewagon.org # TODO: move to values
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       # Name of a secret used to store the ACME account private key
