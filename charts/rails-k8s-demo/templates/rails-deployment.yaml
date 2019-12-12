@@ -34,10 +34,11 @@ spec:
               containerPort: 80
               protocol: TCP
           command:
-            - puma
+            - rails
           args:
-            - "-C"
-            - "config/puma.rb"
+            - "server"
+            - "-b"
+            - "0.0.0.0"
           envFrom:
           - configMapRef:
               name: base-env
