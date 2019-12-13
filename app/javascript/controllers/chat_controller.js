@@ -16,7 +16,7 @@ function subscribeConsumerWithStimulusContext(ctx) {
         case "message":
           console.log(message);
           ctx.insertMessage(message);
-          ctx.clearForm();
+          ctx.clearForm(message.author);
           break;
         case "preview":
           console.log(message);
@@ -56,7 +56,9 @@ export default class extends Controller {
     }
   }
 
-  clearForm() {
-    this.formTarget.reset();
+  clearForm(author) {
+    if (author === this.data.get("username")) {
+      this.formTarget.reset();
+    }
   }
 }
