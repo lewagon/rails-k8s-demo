@@ -74,7 +74,11 @@ COPY config.ru Rakefile babel.config.js postcss.config.js .browserslistrc ./
 
 ENV RAILS_ENV=production
 ENV NODE_ENV=production
+
 RUN rails assets:precompile
+
+ENV RAILS_LOG_TO_STDOUT=enabled
+ENV RAILS_SERVE_STATIC_FILES=enabled
 
 
 EXPOSE 3000
