@@ -21,7 +21,7 @@ services:
     volumes:
       - .:/app:cached
       - rails_cache:/app/tmp/cache
-      - bundle:/bundle
+      - bundle:/usr/local/bundle
       - node_modules:/app/node_modules
       - packs:/app/public/packs
       - .psqlrc:/root/.psqlrc:ro
@@ -33,7 +33,7 @@ services:
       - BOOTSNAP_CACHE_DIR=/bundle/bootsnap
       - WEBPACKER_DEV_SERVER_HOST=webpacker
       - WEB_CONCURRENCY=1
-      - HISTFILE=/app/log/.bash_history
+      - HISTFILE=/app/log/.bash_history # TODO: figure out problem on Damien's Linux
       - PSQL_HISTFILE=/app/log/.psql_history
       - EDITOR=vi
 
@@ -65,7 +65,7 @@ services:
       - "3035:3035"
     volumes:
       - .:/app:cached
-      - bundle:/bundle
+      - bundle:/usr/local/bundle
       - node_modules:/app/node_modules
       - packs:/app/public/packs
     environment:

@@ -53,9 +53,6 @@ ENV PATH /app/bin:$PATH
 
 WORKDIR /app
 
-COPY Gemfile ./Gemfile
-COPY package.json ./package.json
-
 # Upgrade RubyGems and install required Bundler version
 RUN gem update --system && \
     gem install bundler:$BUNDLER_VERSION
