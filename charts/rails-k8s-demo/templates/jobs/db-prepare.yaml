@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-prepare
+  annotations:
+    helm.sh/hook: pre-upgrade, pre-install
+    helm.sh/hook-delete-policy: hook-succeeded, hook-failed
+spec:
+  activeDeadlineSeconds: 180
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: db-prepare
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command:
+          - bundle
+          - exec
+          - rails
+          - db:prepare
+        {{if .Values.dbConnectionString }}
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: db-connection-string
+              key: db_connection_string
+        {{ end }}

@@ -1,13 +1,3 @@
-# Default values for rails-k8s-demo.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
-rails:
-  replicaCount: 1
-
-sidekiq:
-  replicaCount: 1
-
 image:
   repository: quay.io/lewagon/rails-k8s-demo
   tag: latest
@@ -17,8 +7,21 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-dbConnectionString: false
-railsMasterKey: false
+rails:
+  replicaCount: 1
+
+sidekiq:
+  replicaCount: 1
+
+# ENV variables declared here will be set for both Rails and Sidekiq pods
+commonEnv:
+  # ENV_VAR: value
+
+# Values used to generate secrets at chart install/upgrade.
+# These values need to be injected through shell env/CI secrets,
+# Don't set them here and don't commit to source control.
+dbConnectionString:
+railsMasterKey:
 
 serviceAccount:
   # Specifies whether a service account should be created

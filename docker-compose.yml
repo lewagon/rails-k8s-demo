@@ -12,7 +12,7 @@ services:
         PG_MAJOR: "11"
         NODE_MAJOR: "11"
         YARN_VERSION: "1.19.1"
-        BUNDLER_VERSION: "2.0.2"
+        BUNDLER_VERSION: "2.1.0"
     image: rails-k8s-demo:dev
     tmpfs:
       - /tmp

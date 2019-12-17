@@ -17,5 +17,5 @@ test:
 
 production:
   <<: *default
-  database: rails-k8s-demo_production
+  database: rails-k8s-demo-production
   url: <%= ENV['DATABASE_URL'] %>
