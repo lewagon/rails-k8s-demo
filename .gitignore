@@ -27,3 +27,4 @@
 yarn-debug.log*
 .yarn-integrity
 .pry_history
+.ruby-version
