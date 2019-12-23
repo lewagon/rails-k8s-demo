@@ -17,11 +17,8 @@ jobs:
       - name: Pull latest image to use for cache
         run: docker pull quay.io/lewagon/rails-k8s-demo:latest || true
 
-      - name: Build prod image
-        run: docker build . -f Dockerfile.prod -t quay.io/lewagon/rails-k8s-demo:$(echo $GITHUB_SHA | head -c7) --cache-from quay.io/lewagon/rails-k8s-demo:latest
-
-      - name: push image to Quay
-        run: docker push quay.io/lewagon/rails-k8s-demo:$(echo $GITHUB_SHA | head -c7)
+      - name: Build and push prod image
+        run: make build-ci
 
       - name: Save DigitalOcean kubeconfig
         uses: digitalocean/action-doctl@master

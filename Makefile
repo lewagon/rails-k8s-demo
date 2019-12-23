@@ -10,6 +10,19 @@ ci-deploy:
 	--set-string railsMasterKey=$(rails_master_key)
 	--set-string dbConnectionString=$(db_connection_string)
 
+build-sha-cached:
+	set -e; \
+	docker build \
+	-f Dockerfile.prod \
+	--build-arg RUBY_VERSION="2.6.5" \
+	--build-arg PG_MAJOR="11" \
+	--build-arg NODE_MAJOR="11" \
+	--build-arg YARN_VERSION="1.19.1" \
+	--build-arg BUNDLER_VERSION="2.1.0" \
+	--cache-from quay.io/lewagon/rails-k8s-demo:latest \
+	. \
+	-t quay.io/lewagon/rails-k8s-demo:$(latest_sha);
+
 build-latest:
 	set -e; \
 	docker build \
@@ -25,7 +38,12 @@ build-latest:
 push-latest:
 	docker push quay.io/lewagon/rails-k8s-demo:latest
 
+push-sha:
+	docker push quay.io/lewagon/rails-k8s-demo:$(latest_sha)
+
 build-push-latest: build-latest push-latest
+
+build-ci: build-sha-cached push-sha
 
 # DO_POSTGRES_URL needs to be set to the connection string in the shell
 upgrade-dev:
