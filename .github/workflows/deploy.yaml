@@ -1,5 +1,5 @@
 name: Helm deploy
-on: [pull_request]
+on: [push]
   # push:
   #   branches:
   #     - master
@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@master
 
       - name: Login to Quay
-        run: docker login quay.io -u "${{ secrets.QUAY_USERNAME }}" -p "${{ secrets.QUAY_PASSWORD }}"
+        run: docker login quay.io -u ${{ secrets.QUAY_USERNAME }} -p "${{ secrets.QUAY_PASSWORD }}"
 
       - name: Pull latest image to use for cache
         run: docker pull quay.io/lewagon/rails-k8s-demo:latest || true
