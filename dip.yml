@@ -1,3 +1,7 @@
+# Run eval "$(dip console)" in open terminal tab to not have to to prepend
+# commands with `dip`:
+# `dip rails c` -> `rails c`
+
 # Required minimum dip version
 version: "4.1"
 
