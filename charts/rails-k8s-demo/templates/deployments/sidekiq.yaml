@@ -14,7 +14,7 @@ spec:
     metadata:
       labels:
         {{- include "rails-k8s-demo.selectorLabels" . | nindent 8 }}
-        app.kubernetes.io/component: background # TODO: move to values.yaml?
+        app.kubernetes.io/component: background
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -26,6 +26,9 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: sidekiqalive
+              containerPort: 7433
           command:
             - bundle
             - exec
@@ -33,6 +36,15 @@ spec:
           args:
             - "-C"
             - "config/sidekiq.yml"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 7433
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 7433
+            initialDelaySeconds: 30 # app specific. Time your sidekiq takes to start processing.
           envFrom:
           - configMapRef:
               name: common-env
@@ -52,21 +64,6 @@ spec:
                 name: rails-master-key
                 key: rails_master_key
           {{ end }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          # ports:
-          #   - name: sidekiqalive
-          #     containerPort: 7433
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: 7433
-          #   timeoutSeconds: 5
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: 7433
-          #   initialDelaySeconds: 30
-          #   timeoutSeconds: 5
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       # Dafault helm

@@ -21,6 +21,7 @@ gem "jbuilder", "~> 2.7"
 gem "redis", "~> 4.0"
 gem "sidekiq", "~> 6.0"
 gem "sidekiq-failures"
+gem "sidekiq_alive", "~> 2.0" # liveness probe for Sidekiq pod in Kubernetes
 
 gem "http"
 gem "twitter-text"

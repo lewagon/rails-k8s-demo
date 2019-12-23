@@ -1,3 +1,15 @@
+latest_sha := $(shell git rev-parse --verify --short HEAD)
+rails_master_key := ""
+db_connection_string := ""
+
+ci-deploy:
+	echo "Upgrading/installing release to specified Digital Ocean cluster"
+	helm upgrade glovebox charts/glovebox --install \
+	--atomic --cleanup-on-fail \
+	--set-string image.tag=$(latest_sha) \
+	--set-string railsMasterKey=$(rails_master_key)
+	--set-string dbConnectionString=$(db_connection_string)
+
 build-latest:
 	set -e; \
 	docker build \
