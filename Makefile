@@ -4,7 +4,7 @@ db_connection_string := ""
 
 ci-deploy:
 	echo "Upgrading/installing release to specified Digital Ocean cluster"
-	helm upgrade glovebox charts/glovebox --install \
+	helm upgrade rails-k8s-demo charts/rails-k8s-demo --install \
 	--atomic --cleanup-on-fail \
 	--set-string image.tag=$(latest_sha) \
 	--set-string dbConnectionString=$(db_connection_string)
