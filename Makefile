@@ -7,7 +7,6 @@ ci-deploy:
 	helm upgrade glovebox charts/glovebox --install \
 	--atomic --cleanup-on-fail \
 	--set-string image.tag=$(latest_sha) \
-	--set-string railsMasterKey=$(rails_master_key)
 	--set-string dbConnectionString=$(db_connection_string)
 
 build-sha-cached:
