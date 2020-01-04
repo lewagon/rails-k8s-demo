@@ -8,5 +8,5 @@ metadata:
 data:
   REDIS_URL: redis://{{ .Release.Name }}-redis-master.default.svc.cluster.local
 {{- range $key, $value := .Values.commonEnv }}
-  {{ $key }}: {{ $value }}
+  {{ $key }}: {{ $value | quote }}
 {{- end }}
