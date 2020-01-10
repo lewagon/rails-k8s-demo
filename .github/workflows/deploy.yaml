@@ -1,8 +1,8 @@
 name: Helm deploy
-on: [push]
-  # push:
-  #   branches:
-  #     - master
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
