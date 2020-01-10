@@ -31,7 +31,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 3000
               protocol: TCP
           command:
             - rails
@@ -39,6 +39,25 @@ spec:
             - "server"
             - "-b"
             - "0.0.0.0"
+          # TODO: Figure out how to query the actual pod
+          # livenessProbe:
+          #   httpGet:
+          #     scheme: HTTPS
+          #     host: demo.lewagon.co
+          #     path: /
+          #     port: 443
+          #   timeoutSeconds: 5
+          #   failureThreshold: 3
+          #   periodSeconds: 5
+          # readinessProbe:
+          #   httpGet:
+          #     scheme: HTTPS
+          #     host: demo.lewagon.co
+          #     path: /
+          #     port: 443
+          #   timeoutSeconds: 5
+          #   failureThreshold: 3
+          #   initialDelaySeconds: 30
           envFrom:
           - configMapRef:
               name: common-env
@@ -58,14 +77,6 @@ spec:
                 name: rails-master-key
                 key: rails_master_key
           {{ end }}
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

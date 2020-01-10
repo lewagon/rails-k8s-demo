@@ -6,7 +6,7 @@ ARG NODE_MAJOR
 ARG BUNDLER_VERSION
 ARG YARN_VERSION
 
-# Common dependencies
+# Common build dependencies
 RUN apt-get update -qq \
   && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
     build-essential \
