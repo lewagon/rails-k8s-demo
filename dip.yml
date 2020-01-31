@@ -86,7 +86,8 @@ interaction:
 
 provision:
   - docker-compose down --volumes
-  - docker-compose up -d postgres redis app
+  - docker-compose up -d postgres redis
+  - docker-compose up -d --build app
   - dip bundle install
   - dip yarn install
   - dip rails db:prepare
