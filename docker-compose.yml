@@ -33,7 +33,7 @@ services:
       - BOOTSNAP_CACHE_DIR=/bundle/bootsnap
       - WEBPACKER_DEV_SERVER_HOST=webpacker
       - WEB_CONCURRENCY=1
-      - HISTFILE=/app/log/.bash_history # TODO: figure out problem on Damien's Linux
+      - HISTFILE=/app/log/.bash_history
       - PSQL_HISTFILE=/app/log/.psql_history
       - EDITOR=vi
 
