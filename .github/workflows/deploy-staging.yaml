@@ -1,0 +1,39 @@
+name: Helm deploy staging
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  build:
+    name: Test, build, push, and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Login to Quay
+        run: docker login quay.io -u ${{ secrets.QUAY_USERNAME }} -p "${{ secrets.QUAY_PASSWORD }}"
+
+      - name: Pull latest image to use for cache
+        run: docker pull quay.io/lewagon/rails-k8s-demo:latest || true
+
+      - name: Copy master key from a secret
+        run: echo ${{ secrets.RAILS_MASTER_KEY }} > config/master.key
+
+      - name: Build and push prod image
+        run: make build-ci
+
+      - name: Save DigitalOcean kubeconfig
+        uses: digitalocean/action-doctl@master
+        env:
+          DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+        with:
+          args: kubernetes cluster kubeconfig show disposable > $GITHUB_WORKSPACE/.kubeconfig
+
+      - name: Install/upgrade chart and test release
+        uses: stefanprodan/kube-tools@v1
+        env:
+          KUBECONFIG: /github/workspace/.kubeconfig
+        with:
+          helm: 3.0.1
+          command: make ci-deploy latest_sha=$(echo $GITHUB_SHA | head -c7) db_connection_string=${{ secrets.DB_URL }}

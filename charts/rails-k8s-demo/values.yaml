@@ -51,15 +51,15 @@ ingress:
   enabled: true
   annotations:
     kubernetes.io/ingress.class: nginx
-    # certmanager.io/cluster-issuer: letsencrypt-prod
+    certmanager.io/cluster-issuer: letsencrypt-prod
   hosts:
     - host: test-demo.lewagon.co
       paths: ["/"]
 
-  # tls:
-  #   - secretName: tls-cert
-  #     hosts:
-  #       - test-demo.lewagon.co
+  tls:
+    - secretName: tls-cert
+      hosts:
+        - test-demo.lewagon.co
 
 resources:
   {}

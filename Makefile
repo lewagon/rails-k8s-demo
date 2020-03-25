@@ -31,6 +31,7 @@ build-latest:
 	--build-arg NODE_MAJOR="11" \
 	--build-arg YARN_VERSION="1.19.1" \
 	--build-arg BUNDLER_VERSION="2.1.0" \
+	--cache-from quay.io/lewagon/rails-k8s-demo:latest \
 	. \
 	-t quay.io/lewagon/rails-k8s-demo:latest;
 
