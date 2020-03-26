@@ -15,7 +15,7 @@ sidekiq:
 
 # ENV variables declared here will be set for both Rails and Sidekiq pods
 commonEnv:
-  # ENV_VAR: value
+  HELLO: world
 
 # Values used to generate secrets at chart install/upgrade.
 # These values need to be injected through shell env/CI secrets,
@@ -51,15 +51,15 @@ ingress:
   enabled: true
   annotations:
     kubernetes.io/ingress.class: nginx
-    certmanager.io/cluster-issuer: letsencrypt-prod
+    # certmanager.io/cluster-issuer: letsencrypt-prod
   hosts:
-    - host: demo.lewagon.co
+    - host: paris-demo.lewagon.co
       paths: ["/"]
 
   tls:
     - secretName: tls-cert
       hosts:
-        - demo.lewagon.co
+        - paris-demo.lewagon.co
 
 resources:
   {}
