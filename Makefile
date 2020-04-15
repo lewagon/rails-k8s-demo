@@ -16,7 +16,7 @@ build-sha-cached:
 	--build-arg RUBY_VERSION="2.6.5" \
 	--build-arg PG_MAJOR="11" \
 	--build-arg NODE_MAJOR="11" \
-	--build-arg YARN_VERSION="1.19.1" \
+	--build-arg YARN_VERSION="1.22.4" \
 	--build-arg BUNDLER_VERSION="2.1.0" \
 	--cache-from quay.io/lewagon/rails-k8s-demo:latest \
 	. \
@@ -29,7 +29,7 @@ build-latest:
 	--build-arg RUBY_VERSION="2.6.5" \
 	--build-arg PG_MAJOR="11" \
 	--build-arg NODE_MAJOR="11" \
-	--build-arg YARN_VERSION="1.19.1" \
+	--build-arg YARN_VERSION="1.22.4" \
 	--build-arg BUNDLER_VERSION="2.1.0" \
 	. \
 	-t quay.io/lewagon/rails-k8s-demo:latest;

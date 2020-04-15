@@ -9,7 +9,8 @@
     "jquery": "^3.4.1",
     "popper.js": "^1.16.0",
     "stimulus": "^1.1.1",
-    "turbolinks": "^5.2.0"
+    "turbolinks": "^5.2.0",
+    "minimist": "^1.2.3" 
   },
   "version": "0.1.0",
   "devDependencies": {
