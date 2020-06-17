@@ -6,7 +6,7 @@ db_connection_string := ""
 
 ci-deploy:
 	echo "Upgrading/installing release to specified Digital Ocean cluster"
-	helm upgrade $(project_name) charts/$(project_name) --install \
+	helm upgrade $(project_name) helm --install \
 	--atomic --cleanup-on-fail \
 	--set-string image.tag=$(latest_sha) \
 	--set-string dbConnectionString=$(db_connection_string)
