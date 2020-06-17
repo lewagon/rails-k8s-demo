@@ -5,8 +5,7 @@ on:
       - master
 
 jobs:
-  build:
-    name: Test, build, push, and deploy
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -30,10 +29,8 @@ jobs:
         with:
           args: kubernetes cluster kubeconfig show kubernetes-demo > $GITHUB_WORKSPACE/.kubeconfig
 
-      - name: Install/upgrade chart and test release
-        uses: stefanprodan/kube-tools@v1
-        env:
-          KUBECONFIG: /github/workspace/.kubeconfig
-        with:
-          helm: 3.0.1
-          command: make ci-deploy latest_sha=$(echo $GITHUB_SHA | head -c7) db_connection_string=${{ secrets.DB_URL }}
+      - name: Install/upgrade chart
+        run: >
+          export KUBECONFIG=$GITHUB_WORKSPACE/.kubeconfig && 
+          make ci-deploy latest_sha=$(echo $GITHUB_SHA | head -c7) 
+          db_connection_string=${{ secrets.DB_URL }} rails_master_key=${{secrets.RAILS_MASTER_KEY}}
