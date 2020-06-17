@@ -36,19 +36,25 @@ interaction:
     service: app
     command: bundle exec rake
 
+  standardrb:
+    description: Run standardrb on Project
+    service: app
+    command: bundle exec standardrb
+
   rspec:
     description: Run Rspec commands
     service: app
     environment:
       RAILS_ENV: test
-    command: bundle exec rspec
+    command: ./vnc.sh bundle exec rspec --format=documentation
+    compose:
+      run_options: ["publish=5900:5900"]
 
   sidekiq:
     description: Run commands in sidekiq container
     service: sidekiq
     compose:
-      method: up
-      run_options: [detach]
+      method: run
     subcommands:
       logs:
         description: "Display last 200 lines of Sidekiq logs and follow"
@@ -61,6 +67,16 @@ interaction:
     service: app
     command: bundle exec rails
     subcommands:
+      s:
+        description: Run Rails server at http://localhost:3000
+        service: rails
+        compose:
+          run_options: [service-ports, use-aliases]
+      s-altport:
+        description: Run Rails server at select port `dip run -p 5000:3000 rails s-altport`
+        service: rails
+        compose:
+          run_options: [use-aliases]
       logs:
         description: Display last 200 lines of Rails logs and follow
         service: rails
@@ -77,19 +93,19 @@ interaction:
         compose:
           method: logs
           run_options: [follow, tail='200']
+    compose:
+      run_options: [service-ports, use-aliases]
 
   psql:
     description: Run Postgres psql console
     service: app
-    default_args: db_development
+    default_args: forms_development
     command: psql -h postgres -U postgres
 
 provision:
   - docker-compose down --volumes
   - docker-compose up -d postgres redis
   - docker-compose up -d --build app
-  - rm -rf Gemfile.lock
   - dip bundle install
   - dip yarn install
-  - dip rails db:prepare
-  - dip up -d
+  - "dip rails db:prepare"
