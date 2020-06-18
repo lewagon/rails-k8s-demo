@@ -33,6 +33,7 @@ By constantly migrating legacy applications to this setup and starting new ones 
 
 We use [dip](https://github.com/bibendi/dip) by Misha Merkushin at [Evil Martians](https://evilmartians.com) to achieve a "classic CLI" feel while working with Docker under the hood.
 
+- `gem install dip`
 - `dip provision` to build all necessary images and setup the local DB
 - `dip up -d` to run all services in the background: `app`, `rails`, `sidekiq`, `webpacker` (runs `webpack-dev-server` for JS live reload), `postgres`, `redis`. Go to `localhost:3000` :tada:
 - `dip rails c` to visit console.
