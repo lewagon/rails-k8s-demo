@@ -16,7 +16,7 @@ It requires Sidekiq, Redis, and PostgreSQL to run, which represents the standard
 ## Goals
 
 - Create a sensible approach to running fairly complex Rails projects in development with Docker
-- Generate reproducible and customizable configuration
+- Generate reproducible and customizable configuration for production
 - Store everything related to deployments in the same repo as application code. Rely on GitHub one-way encrtypred secrets to store sensitive data like database connection strings.
 - Cater to a _"classic Rails stack"_: Rails, Puma, Sidekiq, Redis, PostgreSQL, Webpacker, Action Cable
 - Allow for only a certain amount of complexity: enough to fit inside a head of a single full-stack developer who may end up maintaining the projects.
