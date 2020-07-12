@@ -72,6 +72,8 @@ services:
       - packs:/app/public/packs
     environment:
       - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
+      - NODE_ENV=${NODE_ENV:-development}
+      - RAILS_ENV=${RAILS_ENV:-development}
 
   postgres:
     image: postgres:11.1
