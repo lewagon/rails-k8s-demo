@@ -13,6 +13,7 @@ ci-deploy:
 
 build-sha-cached:
 	set -e; \
+	DOCKER_BUILDKIT=1 \
 	docker build \
 	-f Dockerfile.prod \
 	--build-arg RUBY_VERSION="2.6.5" \
@@ -26,6 +27,7 @@ build-sha-cached:
 
 build-latest:
 	set -e; \
+	DOCKER_BUILDKIT=1 \
 	docker build \
 	-f Dockerfile.prod \
 	--build-arg RUBY_VERSION="2.6.5" \
