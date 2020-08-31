@@ -4,18 +4,16 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  url: <%= ENV.fetch("DATABASE_URL", " ") %>
 
 development:
   <<: *default
   database: db_development
-  url: <%= ENV['DATABASE_URL'] %>
 
 test:
   <<: *default
   database: db_test
-  url: <%= ENV['DATABASE_URL'] %>
 
 production:
   <<: *default
   database: rails-k8s-demo-production
-  url: <%= ENV['DATABASE_URL'] %>

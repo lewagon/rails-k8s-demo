@@ -11,7 +11,6 @@ environment:
 compose:
   files:
     - docker-compose.yml
-  project_name: rails-k8s-demo
 
 interaction:
   bash:
@@ -35,11 +34,6 @@ interaction:
     description: Run Rake commands
     service: app
     command: bundle exec rake
-
-  standardrb:
-    description: Run standardrb on Project
-    service: app
-    command: bundle exec standardrb
 
   rspec:
     description: Run Rspec commands
@@ -99,8 +93,13 @@ interaction:
   psql:
     description: Run Postgres psql console
     service: app
-    default_args: forms_development
+    default_args: rc3_development
     command: psql -h postgres -U postgres
+
+  redis-cli:
+    description: Run Redis CLI
+    service: app
+    command: redis-cli -u redis://redis:6379/
 
 provision:
   - docker-compose down --volumes
@@ -108,4 +107,4 @@ provision:
   - docker-compose up -d --build app
   - dip bundle install
   - dip yarn install
-  - "dip rails db:prepare"
+  - dip rails db:drop db:create db:migrate

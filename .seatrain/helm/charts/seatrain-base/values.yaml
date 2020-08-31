@@ -1,0 +1,57 @@
+global:
+  image:
+    repository: ""
+    tag: latest
+    pullPolicy: Always
+
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+
+  rails:
+    replicaCount: 1
+
+  sidekiq:
+    replicaCount: 1
+
+  # ENV variables declared here will be set for both Rails and Sidekiq pods
+  commonEnv: {}
+
+  db:
+    prepareJob:
+      enabled: true
+
+
+  # Values used to generate secrets at chart install/upgrade.
+  # These values need to be injected through shell env/CI secrets,
+  # Don't set them here and don't commit to source control.
+  dbConnectionString:
+  railsMasterKey:
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  https:
+    enabled: false
+    certificateEmail: ""
+
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      # TODO: Should it be here if https disabled?
+      certmanager.io/cluster-issuer: production-tls-issuer
+      nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    hosts:
+      - host: example.com
+
+  resources:
+    rails: {}
+    sidekiq: {}
+
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  podSecurityContext: {}
+  securityContext: {}

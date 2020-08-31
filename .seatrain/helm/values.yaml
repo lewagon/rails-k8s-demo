@@ -1,0 +1,56 @@
+global:
+  image:
+    repository: quay.io/lewagon/rails-k8s-demo
+    tag: latest
+    pullPolicy: Always
+
+  imagePullSecrets:
+    # - name: my-pull-secret
+  fullnameOverride: "rails-k8s-demo"
+
+  rails:
+    replicaCount: 1
+
+  sidekiq:
+    replicaCount: 1
+
+  # ENV variables declared here will be set for both Rails and Sidekiq pods
+  commonEnv: {}
+
+  db:
+    prepareJob:
+      enabled: false
+
+
+  # Values used to generate secrets at chart install/upgrade.
+  # These values need to be injected through shell env/CI secrets,
+  # Don't set them here and don't commit to source control.
+  dbConnectionString:
+  railsMasterKey:
+
+  https:
+    enabled: true
+    certificateEmail: "andrey@lewagon.org"
+
+  ingress:
+    hosts:
+      - host: seatrain-demo.lewagon.co
+
+  resources:
+    rails: {}
+    sidekiq: {}
+
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  podSecurityContext: {}
+  securityContext: {}
+
+redis:
+  cluster:
+    enabled: false
+    slaveCount: 2
+  usePassword: false
+  # By default, FLUSH and FLUSHALL are disabled in bitnami/redis chart
+  master:
+    disableCommands: []

@@ -1,3 +1,4 @@
+{{- if .Values.global.https.enabled -}}
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
@@ -6,11 +7,12 @@ spec:
   secretName: tls-cert
 
   dnsNames:
-  {{- range .Values.ingress.hosts }}
+  {{- range .Values.global.ingress.hosts }}
     - {{ .host | quote }}
   {{- end }}
 
   issuerRef:
-    name: letsencrypt-prod
+    name: production-tls-issuer
     kind: ClusterIssuer
     group: cert-manager.io
+{{- end -}}

@@ -1,0 +1,31 @@
+{{- $fullName := include "seatrain-base.fullname" . -}}
+{{- $svcPort := .Values.global.service.port -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "seatrain-base.labels" . | nindent 4 }}
+  {{- with .Values.global.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+{{- if .Values.global.https.enabled }}
+  tls:
+    - hosts:
+      {{- range .Values.global.ingress.hosts }}
+        - {{ .host | quote }}
+      {{- end }}
+      secretName: tls-cert
+{{- end }}
+  rules:
+  {{- range .Values.global.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          - path: "/"
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: {{ $svcPort }}
+  {{- end }}

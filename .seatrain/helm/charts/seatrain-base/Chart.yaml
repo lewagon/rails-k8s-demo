@@ -1,0 +1,6 @@
+apiVersion: v2
+appVersion: "1"
+description: Subchart with common resources for a standard Rails deployment
+name: seatrain-base
+type: application
+version: 0.1.0
