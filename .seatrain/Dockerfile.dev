@@ -60,10 +60,6 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrad
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
   truncate -s 0 /var/log/*log
 
-# COPY vnc.sh ./
-# RUN chmod +x ./vnc.sh
-# ENV VNC_SERVER_PASSWORD secret
-
 ARG BUNDLER_VERSION
 ENV BUNDLER_VERSION=${BUNDLER_VERSION:-2.1.2}
 

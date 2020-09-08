@@ -11,6 +11,6 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: {{ include "seatrain-base.name" . }}
+    app.kubernetes.io/name: {{ include "seatrain-base.fullname" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/component: web

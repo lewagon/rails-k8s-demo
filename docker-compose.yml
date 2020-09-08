@@ -5,8 +5,12 @@ x-template-app: &template-app
     context: "."
     dockerfile: ".seatrain/Dockerfile.dev"
     args:
+      RUBY_VERSION: 2.6.6
+      PG_MAJOR: 12
+      NODE_MAJOR: 12
+      YARN_VERSION: 1.22.5
       BUNDLER_VERSION: 2.1.4
-  image: railsk8sdemo:dev
+  image: rails-k8s-demo:dev
   tmpfs:
   - "/tmp"
   stdin_open: true
@@ -27,7 +31,7 @@ x-template-app: &template-app
   - BOOTSNAP_CACHE_DIR=/usr/local/bundle/bootsnap
   - WEBPACKER_DEV_SERVER_HOST=webpacker
   - WEB_CONCURRENCY=1
-  - HISTFILE=/app/log/.bash_history
+  - HISTFILE=/app/log/.pry_history
   - PSQL_HISTFILE=/app/log/.psql_history
   - EDITOR=vi
 services:

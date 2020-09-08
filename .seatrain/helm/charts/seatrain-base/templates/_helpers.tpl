@@ -2,9 +2,6 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "seatrain-base.name" -}}
-{{- default .Chart.Name .Values.global.nameOverride | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
 
 {{/*
 Create a default fully qualified app name.
@@ -47,6 +44,6 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "seatrain-base.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "seatrain-base.name" . }}
+app.kubernetes.io/name: {{ include "seatrain-base.fullname" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}

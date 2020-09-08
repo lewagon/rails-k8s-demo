@@ -49,21 +49,8 @@ spec:
           envFrom:
           - configMapRef:
               name: common-env
-          {{if .Values.global.dbConnectionString }}
-          env:
-          - name: DATABASE_URL
-            valueFrom:
-              secretKeyRef:
-                name: db-connection-string
-                key: db_connection_string
-          {{ end }}
-          {{if .Values.global.railsMasterKey }}
-          - name: RAILS_MASTER_KEY
-            valueFrom:
-              secretKeyRef:
-                name: rails-master-key
-                key: rails_master_key
-          {{ end }}
+          - secretRef:
+              name: {{ include "seatrain-base.fullname" . }}-secrets
           resources:
             {{- toYaml .Values.global.resources.sidekiq | nindent 14 }}
       # Default helm

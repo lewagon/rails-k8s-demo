@@ -10,9 +10,15 @@ global:
 
   rails:
     replicaCount: 1
+    # resources: {}
+    # livenessProbe
+    # readinessProbe
 
   sidekiq:
     replicaCount: 1
+    # resources: {}
+    # livenessProbe
+    # readinessProbe
 
   # ENV variables declared here will be set for both Rails and Sidekiq pods
   commonEnv: {}
@@ -20,13 +26,6 @@ global:
   db:
     prepareJob:
       enabled: false
-
-
-  # Values used to generate secrets at chart install/upgrade.
-  # These values need to be injected through shell env/CI secrets,
-  # Don't set them here and don't commit to source control.
-  dbConnectionString:
-  railsMasterKey:
 
   https:
     enabled: true
@@ -40,11 +39,12 @@ global:
     rails: {}
     sidekiq: {}
 
-  nodeSelector: {}
-  tolerations: []
-  affinity: {}
-  podSecurityContext: {}
-  securityContext: {}
+
+  # nodeSelector: {}
+  # tolerations: []
+  # affinity: {}
+  # podSecurityContext: {}
+  # securityContext: {}
 
 redis:
   cluster:

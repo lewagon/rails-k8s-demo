@@ -7,6 +7,8 @@ metadata:
     helm.sh/hook-weight: "-1"
 data:
   REDIS_URL: redis://{{ .Release.Name }}-redis-master.default.svc.cluster.local
-{{- range $key, $value := .Values.global.commonEnv }}
-  {{ $key }}: {{ $value | quote }}
-{{- end }}
+{{- if .Values.global.commonEnv -}}
+  {{- range $key, $value := .Values.global.commonEnv }}
+    {{ $key }}: {{ $value | b64enc | quote }}
+  {{- end }}
+{{- end -}}
