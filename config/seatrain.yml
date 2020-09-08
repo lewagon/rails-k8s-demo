@@ -1,0 +1,8 @@
+development:
+  ruby_version: 2.6.6
+  pg_version: 12
+  node_version: 12
+  yarn_version: 1.22.5
+  bundler_version: 2.1.4
+  use_sidekiq: true
+  use_webpacker: true
