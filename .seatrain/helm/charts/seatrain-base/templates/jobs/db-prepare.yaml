@@ -22,12 +22,9 @@ spec:
         imagePullPolicy: {{ .Values.global.image.pullPolicy }}
         command: ["bash"]
         args: ["-c", "bundle exec rails db:prepare"]
-        env:
-        {{if .Values.global.dbConnectionString }}
-        - name: DATABASE_URL
-          valueFrom:
-            secretKeyRef:
-              name: db-connection-string
-              key: db_connection_string
-        {{ end }}
+        envFrom:
+        - configMapRef:
+            name: common-env
+        - secretRef:
+            name: {{ include "seatrain-base.fullname" . }}-secrets
 {{- end -}}
