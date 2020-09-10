@@ -7,3 +7,5 @@ end
 Sidekiq.configure_client do |config|
   config.redis = {url: ENV.fetch("REDIS_URL", "redis://localhost:6379/0"), password: ENV["REDIS_PASSWORD"]}
 end
+
+Redis.exists_returns_integer = true
