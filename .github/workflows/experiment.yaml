@@ -61,6 +61,7 @@ jobs:
 
       - name: Deploy to cluster
         run: |
+          export KUBECONFIG=$GITHUB_WORKSPACE/.kubeconfig
           helm upgrade rails-k8s-demo .seatrain/helm --install --create-namespace --namespace default
           --atomic --cleanup-on-fail --timeout=3m0s
           --set-string global.image.tag=${{ steps.prep.outputs.tag }}
