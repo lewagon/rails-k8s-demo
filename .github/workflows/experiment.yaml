@@ -13,8 +13,9 @@ jobs:
       - name: Prepare
         id: prep
         run: |
-          TAGS=$(echo $GITHUB_SHA | head -c7)
-          echo ::set-output name=tags::quay.io/lewagon/rails-k8s-demo-seatrain:${TAGS}
+          TAG=$(echo $GITHUB_SHA | head -c7)
+          IMAGE="quay.io/lewagon/rails-k8s-demo-seatrain"
+          echo ::set-output name=tagged_image::${IMAGE}:${TAG} name=tag::${TAG}
 
       - name: Set up Docker Buildx
         id: buildx
@@ -45,7 +46,7 @@ jobs:
           context: .
           file: .seatrain/Dockerfile.prod
           push: true
-          tags: ${{ steps.prep.outputs.tags }}
+          tags: ${{ steps.prep.outputs.tagged_image }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
@@ -55,7 +56,11 @@ jobs:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
       - name: Save DigitalOcean kubeconfig
-        run: doctl kubernetes cluster kubeconfig show kubernetes-demo > $GITHUB_WORKSPACE/.kubeconfig
+        run: doctl kubernetes cluster kubeconfig show seatrain-demo > $GITHUB_WORKSPACE/.kubeconfig
 
-      - name: Test doctl credentials
-        run: cat $GITHUB_WORKSPACE/.config/doctl/config.yaml
+      - name: Deploy to cluster
+        run: |
+          helm upgrade rails-k8s-demo .seatrain/helm --install --create-namespace --namespace default
+          --atomic --cleanup-on-fail --timeout=3m0s
+          --set-string global.image.tag=${{ steps.prep.outputs.tag }}
+          --set-string global.commonSecrets.DATABASE_URL=${{ secrets.DB_URL }}
