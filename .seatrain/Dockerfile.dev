@@ -1,6 +1,6 @@
 # Set versions for main dependencies
 ARG RUBY_VERSION=2.6.6
-FROM ruby:$RUBY_VERSION-slim-buster as builder
+FROM ruby:$RUBY_VERSION-slim-buster
 
 ARG PG_MAJOR=12
 ARG NODE_MAJOR=10
@@ -61,7 +61,7 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrad
   truncate -s 0 /var/log/*log
 
 ARG BUNDLER_VERSION
-ENV BUNDLER_VERSION=${BUNDLER_VERSION:-2.1.2}
+ENV BUNDLER_VERSION=${BUNDLER_VERSION:-2.1.4}
 
 # Configure bundler
 ENV LANG=C.UTF-8 \
