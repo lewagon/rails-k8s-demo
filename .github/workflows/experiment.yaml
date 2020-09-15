@@ -13,7 +13,7 @@ jobs:
       - name: Prepare
         id: prep
         run: |
-          TAGS=($GITHUB_SHA | head -c7)
+          TAGS=${GITHUB_SHA | head -c7}
           echo ::set-output name=tags::quay.io/lewagon/rails-k8s-demo-seatrain:${TAGS}
 
       - name: Set up Docker Buildx
