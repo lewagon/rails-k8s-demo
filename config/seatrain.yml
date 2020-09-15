@@ -6,3 +6,7 @@ development:
   bundler_version: 2.1.4
   use_sidekiq: true
   use_webpacker: true
+  docker_server: quay.io
+  docker_login: progapandist
+  production_image_name: "quay.io/lewagon/rails-k8s-demo-seatrain"
+  required_secrets: ["DATABASE_URL"]

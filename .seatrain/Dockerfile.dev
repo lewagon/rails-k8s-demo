@@ -14,6 +14,8 @@ RUN apt-get update -qq \
   curl \
   less \
   git \
+  software-properties-common \
+  apt-transport-https \
   && apt-get clean \
   && rm -rf /var/cache/apt/archives/* \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
@@ -59,6 +61,26 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrad
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
   truncate -s 0 /var/log/*log
+
+# Install docker-cli, kubectl, helm
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - && \
+  curl https://baltocdn.com/helm/signing.asc | apt-key add - && \
+  curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
+  add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian buster stable" &&\
+  echo "deb https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list && \
+  echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list && \
+  apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrade && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+  docker-ce-cli \
+  helm \
+  kubectl && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+  truncate -s 0 /var/log/*log
+
+# Install doctl
+RUN curl -OL https://github.com/digitalocean/doctl/releases/download/v1.23.1/doctl-1.23.1-linux-amd64.tar.gz && \
+  mv ./doctl /usr/local/bin
 
 ARG BUNDLER_VERSION
 ENV BUNDLER_VERSION=${BUNDLER_VERSION:-2.1.2}

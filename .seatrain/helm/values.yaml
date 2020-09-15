@@ -1,11 +1,12 @@
 global:
   image:
-    repository: quay.io/lewagon/rails-k8s-demo
+    repository: quay.io/lewagon/rails-k8s-demo-seatrain
     tag: latest
     pullPolicy: Always
 
+  # TODO: drop the array here
   imagePullSecrets:
-    # - name: my-pull-secret
+    - name: rails-k8s-demo-pull-secret
   fullnameOverride: "rails-k8s-demo"
 
   rails:
@@ -25,7 +26,7 @@ global:
 
   db:
     prepareJob:
-      enabled: false
+      enabled: true
 
   https:
     enabled: true
