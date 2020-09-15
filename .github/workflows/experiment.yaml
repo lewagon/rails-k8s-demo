@@ -15,7 +15,8 @@ jobs:
         run: |
           TAG=$(echo $GITHUB_SHA | head -c7)
           IMAGE="quay.io/lewagon/rails-k8s-demo-seatrain"
-          echo ::set-output name=tagged_image::${IMAGE}:${TAG} name=tag::${TAG}
+          echo ::set-output name=tagged_image::${IMAGE}:${TAG} 
+          echo ::set-output name=tag::${TAG}
 
       - name: Set up Docker Buildx
         id: buildx
