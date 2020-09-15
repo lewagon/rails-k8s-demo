@@ -10,6 +10,12 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
+      - name: Prepare
+        id: prep
+        run: |
+          TAGS=($GITHUB_SHA | head -c7)
+          echo ::set-output name=tags::quay.io/lewagon/rails-k8s-demo-seatrain:${TAGS}
+
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v1
@@ -39,7 +45,9 @@ jobs:
           context: .
           file: .seatrain/Dockerfile.prod
           push: true
-          tags: quay.io/lewagon/rails-k8s-demo-seatrain:$(echo $GITHUB_SHA | head -c7)
+          tags: ${{ steps.prep.outputs.tags }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
