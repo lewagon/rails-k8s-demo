@@ -59,9 +59,7 @@ COPY . .
 
 # Upgrade RubyGems and install required Bundler version
 RUN gem update --system && \
-  rm /usr/local/lib/ruby/gems/*/specifications/default/bundler-*.gemspec && \
-  gem uninstall bundler && \
-  gem install bundler -v $BUNDLER_VERSION && \
+  gem install bundler:$BUNDLER_VERSION && \
   bundle config set without 'development test' && \
   bundle config set deployment 'true' && \
   bundle install
