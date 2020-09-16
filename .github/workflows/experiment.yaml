@@ -60,6 +60,7 @@ jobs:
         run: doctl kubernetes cluster kubeconfig show seatrain-demo > $GITHUB_WORKSPACE/.kubeconfig
 
       - name: Deploy to cluster
+        # TODO: This needs to be generated based on Seatrain known secrets
         run: >
           export KUBECONFIG=$GITHUB_WORKSPACE/.kubeconfig &&
           helm upgrade rails-k8s-demo .seatrain/helm --install --create-namespace --namespace default
