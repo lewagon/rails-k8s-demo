@@ -32,7 +32,7 @@ gem "opengraph_parser"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.2", require: false
 
-gem "seatrain", path: "~/code/lewagon/seatrain" # git: "https://github.com/lewagon/seatrain", branch: "dev" 
+gem "seatrain", git: "https://github.com/lewagon/seatrain", branch: "dev" # path: "~/code/lewagon/seatrain" 
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

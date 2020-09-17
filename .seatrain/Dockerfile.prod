@@ -4,6 +4,7 @@ FROM ruby:$RUBY_VERSION-slim-buster
 ARG PG_MAJOR
 ARG NODE_MAJOR
 ARG YARN_VERSION
+ARG BUNDLER_VERSION
 
 # Common build dependencies
 RUN apt-get update -qq \
@@ -42,8 +43,6 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrad
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
   truncate -s 0 /var/log/*log
-
-ARG BUNDLER_VERSION=2.1.4
 
 # Configure bundler
 ENV LANG=C.UTF-8 \
