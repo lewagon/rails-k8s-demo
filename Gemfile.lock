@@ -1,5 +1,7 @@
-PATH
-  remote: ../seatrain
+GIT
+  remote: https://github.com/lewagon/seatrain
+  revision: 0ca51be7369a9eff656d16a0fe8fd6600e11ec91
+  branch: dev
   specs:
     seatrain (0.1.0)
       anyway_config (>= 2.0.0)
