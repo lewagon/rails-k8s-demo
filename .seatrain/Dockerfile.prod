@@ -1,10 +1,9 @@
-# Set versions for main dependencies
-ARG RUBY_VERSION=2.6.6
+ARG RUBY_VERSION
 FROM ruby:$RUBY_VERSION-slim-buster
 
-ARG PG_MAJOR=12
-ARG NODE_MAJOR=10
-ARG YARN_VERSION=1.22.4
+ARG PG_MAJOR
+ARG NODE_MAJOR
+ARG YARN_VERSION
 
 # Common build dependencies
 RUN apt-get update -qq \

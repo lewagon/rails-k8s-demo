@@ -5,12 +5,10 @@ metadata:
   name: tls-cert
 spec:
   secretName: tls-cert
-
   dnsNames:
   {{- range .Values.global.ingress.hosts }}
     - {{ .host | quote }}
   {{- end }}
-
   issuerRef:
     name: production-tls-issuer
     kind: ClusterIssuer

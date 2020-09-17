@@ -1,7 +1,7 @@
 development:
   ruby_version: 2.6.6
-  pg_version: 12
-  node_version: 12
+  pg_major_version: 12
+  node_major_version: 12
   yarn_version: 1.22.5
   bundler_version: 2.1.4
   use_sidekiq: true
@@ -10,3 +10,4 @@ development:
   docker_login: progapandist
   production_image_name: "quay.io/lewagon/rails-k8s-demo-seatrain"
   required_secrets: ["DATABASE_URL"]
+  with_apt_packages: ["vim", "ruby-hiredis", "redis-tools", "libidn11-dev"]

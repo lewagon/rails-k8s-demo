@@ -1,25 +1,35 @@
+# OUTSIDE CHART
+
 global:
+  fullnameOverride: "rails-k8s-demo"
+
   image:
     repository: quay.io/lewagon/rails-k8s-demo-seatrain
     tag: latest
     pullPolicy: Always
-
-  # TODO: drop the array here
-  imagePullSecrets:
-    - name: rails-k8s-demo-pull-secret
-  fullnameOverride: "rails-k8s-demo"
+    pullSecret: rails-k8s-demo-pull-secret 
 
   rails:
     replicaCount: 1
     # resources: {}
-    # livenessProbe
-    # readinessProbe
+    # livenessProbe: {}
+    # readinessProbe: {}
+    # nodeSelector: {}
+    # tolerations: []
+    # affinity: {}
+    # podSecurityContext: {}
+    # securityContext: {}
 
   sidekiq:
     replicaCount: 1
     # resources: {}
-    # livenessProbe
-    # readinessProbe
+    # livenessProbe: {}
+    # readinessProbe: {}
+    # nodeSelector: {}
+    # tolerations: []
+    # affinity: {}
+    # podSecurityContext: {}
+    # securityContext: {}
 
   # ENV variables declared here will be set for both Rails and Sidekiq pods
   commonEnv: {}
@@ -39,13 +49,6 @@ global:
   resources:
     rails: {}
     sidekiq: {}
-
-
-  # nodeSelector: {}
-  # tolerations: []
-  # affinity: {}
-  # podSecurityContext: {}
-  # securityContext: {}
 
 redis:
   cluster:

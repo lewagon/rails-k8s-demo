@@ -10,6 +10,9 @@ metadata:
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
+  {{- if .Values.global.https.enabled }}
+    certmanager.io/cluster-issuer: production-tls-issuer
+  {{- end }}
 spec:
 {{- if .Values.global.https.enabled }}
   tls:

@@ -16,16 +16,16 @@ spec:
         {{- include "seatrain-base.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: web
     spec:
-    {{- with .Values.global.imagePullSecrets }}
+    {{- if .Values.global.image.pullSecret }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+        - name: {{ .Values.global.image.pullSecret }}
     {{- end }}
       securityContext:
-        {{- toYaml .Values.global.podSecurityContext | nindent 8 }}
+        {{- toYaml .Values.global.rails.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ include "seatrain-base.fullname" . }}
           securityContext:
-            {{- toYaml .Values.global.securityContext | nindent 12 }}
+            {{- toYaml .Values.global.rails.securityContext | nindent 12 }}
           image: "{{ .Values.global.image.repository }}:{{ .Values.global.image.tag }}"
           imagePullPolicy: {{ .Values.global.image.pullPolicy }}
           ports:
@@ -41,36 +41,29 @@ spec:
             - "-b"
             - "0.0.0.0"
           envFrom:
-          - configMapRef:
-              name: common-env
-          - secretRef:
-              name: {{ include "seatrain-base.fullname" . }}-secrets
-          # livenessProbe:
-          #   httpGet:
-          #     path: /health
-          #     port: 3000
-          #   timeoutSeconds: 5
-          #   failureThreshold: 3
-          #   periodSeconds: 5
-          #   initialDelaySeconds: 20
-          # readinessProbe:
-          #   httpGet:
-          #     path: /health
-          #     port: 3000
-          #   timeoutSeconds: 5
-          #   failureThreshold: 3
-          #   initialDelaySeconds: 20
+            - configMapRef:
+                name: common-env
+            - secretRef:
+                name: {{ include "seatrain-base.fullname" . }}-secrets
+          {{- with .Values.global.rails.livenessProbe }}
+          livenessProbe: 
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.global.rails.readinessProbe }}
+          readinessProbe: 
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           resources:
-            {{- toYaml .Values.global.resources.rails | nindent 14 }}
-      {{- with .Values.global.nodeSelector }}
+            {{- toYaml .Values.global.rails.resources | nindent 14 }}
+      {{- with .Values.global.rails.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-    {{- with .Values.global.affinity }}
+    {{- with .Values.global.rails.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-    {{- with .Values.global.tolerations }}
+    {{- with .Values.global.rails.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}

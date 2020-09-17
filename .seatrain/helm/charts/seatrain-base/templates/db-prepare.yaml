@@ -1,0 +1,30 @@
+{{- if .Values.global.db.prepareJob.enabled -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-prepare
+  annotations:
+    helm.sh/hook: pre-upgrade, pre-install
+    helm.sh/hook-delete-policy: hook-succeeded, hook-failed
+spec:
+  activeDeadlineSeconds: 180
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+    {{- if .Values.global.image.pullSecret }}
+      imagePullSecrets:
+        - name: {{ .Values.global.image.pullSecret }}
+    {{- end }}
+      containers:
+        - name: db-prepare
+          image: {{ .Values.global.image.repository }}:{{ .Values.global.image.tag }}
+          imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+          command: ["bash"]
+          args: ["-c", "bundle exec rails db:prepare"] # TODO: This works with Rails 6 only.
+          envFrom:
+            - configMapRef:
+                name: common-env
+            - secretRef:
+                name: {{ include "seatrain-base.fullname" . }}-secrets
+{{- end -}}

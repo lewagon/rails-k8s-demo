@@ -1,4 +1,5 @@
 version: "3.4"
+
 x-template-app: &template-app
   build:
     context: ".seatrain"
@@ -20,23 +21,21 @@ x-template-app: &template-app
     - bundle:/usr/local/bundle
     - node_modules:/app/node_modules
     - packs:/app/public/packs
-    - ".psqlrc:/root/.psqlrc:ro"
-    # TODO: Don't leave those values here if not used for first release
+    - packs-test:/app/public/packs-test
+    - .dockerdev/.pryrc:/root/.pryrc:ro
+    # TODO: REMOVE BEFORE RELEASE!
     - ~/code/lewagon/seatrain:/root/code/lewagon/seatrain
-    - /var/run/docker.sock:/var/run/docker.sock
-    - ~/.kube/config:/root/.kube/config
-    - ~/.config/doctl/config.yaml:/root/.config/doctl/config.yaml
   environment:
     - NODE_ENV=development
     - RAILS_ENV=${RAILS_ENV:-development}
     - REDIS_URL=redis://redis:6379/
     - DATABASE_URL=postgres://postgres:postgres@postgres:5432
-    - BOOTSNAP_CACHE_DIR=/usr/local/bundle/bootsnap
+    - BOOTSNAP_CACHE_DIR=/usr/local/bundle/_bootsnap
     - WEBPACKER_DEV_SERVER_HOST=webpacker
     - WEB_CONCURRENCY=1
     - HISTFILE=/app/log/.pry_history
-    - PSQL_HISTFILE=/app/log/.psql_history
     - EDITOR=vi
+
 services:
   app:
     <<: *template-app
@@ -44,6 +43,7 @@ services:
     depends_on:
       - postgres
       - redis
+
   rails:
     <<: *template-app
     command:
@@ -54,11 +54,13 @@ services:
       - 3000:3000
     depends_on:
       - app
+
   sidekiq:
     <<: *template-app
     command: bundle exec sidekiq -C config/sidekiq.yml
     depends_on:
       - app
+
   webpacker:
     <<: *template-app
     command: bundle exec webpack-dev-server
@@ -68,22 +70,24 @@ services:
       - NODE_ENV=${NODE_ENV:-development}
       - RAILS_ENV=${RAILS_ENV:-development}
       - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
+
   postgres:
-    image: postgres:11.1
+    image: postgres:12
     volumes:
-      - ".psqlrc:/root/.psqlrc:ro"
       - postgres:/var/lib/postgresql/data
       - "./log:/root/log:cached"
-    environment:
-      - PSQL_HISTFILE=/root/log/.psql_history
     ports:
       - 5432
+    environment:
+      - POSTGRES_PASSWORD=postgres
+
   redis:
-    image: redis:4.0.14-alpine
+    image: redis:5.0-alpine
     volumes:
       - redis:/data
     ports:
       - 6379
+
 volumes:
   postgres:
   redis:
@@ -91,3 +95,4 @@ volumes:
   node_modules:
   rails_cache:
   packs:
+  packs-test:

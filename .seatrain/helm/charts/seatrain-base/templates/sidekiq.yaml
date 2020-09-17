@@ -16,14 +16,16 @@ spec:
         {{- include "seatrain-base.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: background
     spec:
-    {{- with .Values.global.imagePullSecrets }}
+    {{- if .Values.global.image.pullSecret }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+        - name: {{ .Values.global.image.pullSecret }}
     {{- end }}
+      securityContext:
+        {{- toYaml .Values.global.sidekiq.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ include "seatrain-base.fullname" . }}
           securityContext:
-            {{- toYaml .Values.global.securityContext | nindent 12 }}
+            {{- toYaml .Values.global.sidekiq.securityContext | nindent 12 }}
           image: "{{ .Values.global.image.repository }}:{{ .Values.global.image.tag }}"
           imagePullPolicy: {{ .Values.global.image.pullPolicy }}
           ports:
@@ -36,33 +38,31 @@ spec:
           args:
             - "-C"
             - "config/sidekiq.yml"
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: 7433
-          #   initialDelaySeconds: 20
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: 7433
-          #   initialDelaySeconds: 20 # app specific. Time your sidekiq takes to start processing.
           envFrom:
-          - configMapRef:
-              name: common-env
-          - secretRef:
-              name: {{ include "seatrain-base.fullname" . }}-secrets
+            - configMapRef:
+                name: common-env
+            - secretRef:
+                name: {{ include "seatrain-base.fullname" . }}-secrets
+          {{- with .Values.global.sidekiq.livenessProbe }}
+          livenessProbe: 
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.global.sidekiq.readinessProbe }}
+          readinessProbe: 
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           resources:
-            {{- toYaml .Values.global.resources.sidekiq | nindent 14 }}
+            {{- toYaml .Values.global.sidekiq.resources | nindent 14 }}
       # Default helm
-      {{- with .Values.global.nodeSelector }}
+      {{- with .Values.global.sidekiq.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-    {{- with .Values.global.affinity }}
+    {{- with .Values.global.sidekiq.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-    {{- with .Values.global.tolerations }}
+    {{- with .Values.global.sidekiq.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}

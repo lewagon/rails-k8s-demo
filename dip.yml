@@ -30,6 +30,28 @@ interaction:
     service: app
     command: yarn
 
+  rails:
+    description: Run Rails commands
+    service: app
+    command: bundle exec rails
+    subcommands:
+      s:
+        description: Run Rails server at http://localhost:3000
+        service: rails
+        compose:
+          run_options: [service-ports, use-aliases]
+      s-altport:
+        description: Run Rails server at select port `dip run -p 5000:3000 rails s-altport`
+        service: rails
+        compose:
+          run_options: [use-aliases]
+      logs:
+        description: Display last 200 lines of Rails logs and follow
+        service: rails
+        compose:
+          method: logs
+          run_options: [follow, tail='200']
+
   rake:
     description: Run Rake commands
     service: app
@@ -52,28 +74,6 @@ interaction:
     subcommands:
       logs:
         description: "Display last 200 lines of Sidekiq logs and follow"
-        compose:
-          method: logs
-          run_options: [follow, tail='200']
-
-  rails:
-    description: Run Rails commands
-    service: app
-    command: bundle exec rails
-    subcommands:
-      s:
-        description: Run Rails server at http://localhost:3000
-        service: rails
-        compose:
-          run_options: [service-ports, use-aliases]
-      s-altport:
-        description: Run Rails server at select port `dip run -p 5000:3000 rails s-altport`
-        service: rails
-        compose:
-          run_options: [use-aliases]
-      logs:
-        description: Display last 200 lines of Rails logs and follow
-        service: rails
         compose:
           method: logs
           run_options: [follow, tail='200']

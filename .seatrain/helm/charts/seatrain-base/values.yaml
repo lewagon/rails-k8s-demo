@@ -1,23 +1,35 @@
+# INSIDE CHART
+
 global:
+  fullnameOverride: ""
+
   image:
     repository: ""
     tag: latest
     pullPolicy: Always
-
-  imagePullSecrets: []
-  fullnameOverride: ""
-
-  # Values used to generate secrets at chart install/upgrade.
-  # These values need to be injected through shell env/CI secrets,
-  # Don't set them here and don't commit to source control.
-  dbConnectionString:
-  railsMasterKey:
+    pullSecret: ""
 
   rails:
     replicaCount: 1
+    resources: {}
+    livenessProbe: {}
+    readinessProbe: {}
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+    podSecurityContext: {}
+    securityContext: {}
 
   sidekiq:
     replicaCount: 1
+    resources: {}
+    livenessProbe: {}
+    readinessProbe: {}
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+    podSecurityContext: {}
+    securityContext: {}
 
   # ENV variables declared here will be set for both Rails and Sidekiq pods
   commonEnv: {}
@@ -41,18 +53,6 @@ global:
     enabled: true
     annotations:
       kubernetes.io/ingress.class: nginx
-      # TODO: Should it be here if https disabled?
-      certmanager.io/cluster-issuer: production-tls-issuer
       nginx.ingress.kubernetes.io/ssl-redirect: "false"
     hosts:
       - host: example.com
-
-  resources:
-    rails: {}
-    sidekiq: {}
-
-  nodeSelector: {}
-  tolerations: []
-  affinity: {}
-  podSecurityContext: {}
-  securityContext: {}
