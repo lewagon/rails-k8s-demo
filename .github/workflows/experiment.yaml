@@ -50,6 +50,14 @@ jobs:
           tags: ${{ steps.prep.outputs.tagged_image }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
+          # TODO: This needs to be generated based on config
+          build-args: |
+            RUBY_VERSION=2.6.6
+            PG_MAJOR=12
+            NODE_MAJOR=12
+            YARN_VERSION=1.22.5
+            BUNDLER_VERSION=2.1.4
+            
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2

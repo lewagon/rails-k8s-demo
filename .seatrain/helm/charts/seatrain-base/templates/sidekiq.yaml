@@ -53,7 +53,6 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.global.sidekiq.resources | nindent 14 }}
-      # Default helm
       {{- with .Values.global.sidekiq.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
