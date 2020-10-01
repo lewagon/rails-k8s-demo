@@ -1,0 +1,30 @@
+# apiVersion: batch/v1beta1
+# kind: CronJob
+# metadata:
+#   name: my-cron-job
+# spec:
+#   schedule: "0 3 * * *"
+#   jobTemplate:
+#     spec:
+#       template:
+#         spec:
+#           restartPolicy: OnFailure
+#           {{- if .Values.global.image.pullSecret }}
+#           imagePullSecrets:
+#             - name: {{ .Values.global.image.pullSecret }}
+#           {{- end }}
+#           containers:
+#             - name: my-name # Give name to your job's container
+#               image: {{ .Values.global.image.repository }}:{{ .Values.global.image.tag }}
+#               imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+#               command:
+#                 - bundle
+#                 - exec
+#                 - rails
+#                 - name_space:task # Edit with the task you want to run 
+#           envFrom:
+#             - configMapRef:
+#                 name: common-env
+#             - secretRef:
+#                 name: {{ include "seatrain-base.fullname" . }}-secrets
+             

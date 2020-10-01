@@ -1,13 +1,16 @@
-development:
-  ruby_version: 2.6.6
-  pg_major_version: 12
-  node_major_version: 12
-  yarn_version: 1.22.5
-  bundler_version: 2.1.4
-  use_sidekiq: true
-  use_webpacker: true
-  docker_server: quay.io
-  docker_login: progapandist
-  production_image_name: "quay.io/lewagon/rails-k8s-demo-seatrain"
-  required_secrets: ["DATABASE_URL"]
-  with_apt_packages: ["vim", "ruby-hiredis", "redis-tools", "libidn11-dev"]
+ruby_version: 2.6.6
+pg_major_version: 12
+node_major_version: 12
+yarn_version: 1.22.5
+bundler_version: 2.1.4
+use_sidekiq: true
+use_webpacker: true
+docker_server: quay.io
+docker_login: progapandist
+production_image_name: "quay.io/lewagon/rails-k8s-demo-seatrain"
+hostname: "seatrain-test.lewagon.co"
+certificate_email: "andrey@lewagon.org"
+required_secrets:
+  - DATABASE_URL
+  - MY_OTHER_SECRET
+with_apt_packages: ["vim", "ruby-hiredis", "redis-tools", "libidn11-dev"]

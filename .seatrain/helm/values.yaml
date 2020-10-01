@@ -1,13 +1,11 @@
-# OUTSIDE CHART
-
 global:
-  fullnameOverride: "rails-k8s-demo"
+  fullnameOverride: rails-k8s-demo
 
   image:
     repository: quay.io/lewagon/rails-k8s-demo-seatrain
     tag: latest
     pullPolicy: Always
-    pullSecret: rails-k8s-demo-pull-secret 
+    pullSecret: rails-k8s-demo-pull-secret
 
   rails:
     replicaCount: 1
@@ -37,18 +35,15 @@ global:
   db:
     prepareJob:
       enabled: true
+      command: "rails db:prepare"
 
   https:
     enabled: true
-    certificateEmail: "andrey@lewagon.org"
+    certificateEmail: andrey@lewagon.org
 
   ingress:
     hosts:
-      - host: seatrain-demo.lewagon.co
-
-  resources:
-    rails: {}
-    sidekiq: {}
+      - host: seatrain-test.lewagon.co
 
 redis:
   cluster:

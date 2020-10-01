@@ -9,3 +9,6 @@ dependencies:
   - name: redis
     version: 10.2.1
     repository: "@stable"
+  - name: seatrain-base
+    version: 0.1.0
+    repository: "https://lewagon.github.io/seatrain/"

@@ -2,5 +2,8 @@ dependencies:
 - name: redis
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 10.2.1
-digest: sha256:c84f28b553f023b9b9afbb4ec56152545cbc70b228d9981fec4f9ae01b5838b4
-generated: "2020-08-31T19:17:33.025147+02:00"
+- name: seatrain-base
+  repository: https://lewagon.github.io/seatrain/
+  version: 0.1.0
+digest: sha256:f41fad5325eee37255d01f297343774e5338f8d1be9447b08ebe47ce07b69118
+generated: "2020-09-30T15:24:02.766649+02:00"

@@ -11,14 +11,12 @@ class PreviewCreator
     return 0 unless @message.urls.any?
 
     attrs = @message.urls.map { |url|
-      # This makes an external HTTP call
-      # TODO: offload to another job?
       ogp = OpenGraph.new(url)
       {
         title: ogp.title,
         description: ogp.description,
         image_url: ogp.images.first,
-        url: url,
+        url: url
       }
     }
     @message.previews.create(attrs)
