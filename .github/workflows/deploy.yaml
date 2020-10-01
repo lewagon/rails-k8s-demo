@@ -14,7 +14,7 @@ jobs:
         id: prep
         run: |
           TAG=$(echo $GITHUB_SHA | head -c7)
-          IMAGE="registry.digitalocean.com/lewagon/rails-k8s-demo-seatrain"
+          IMAGE="registry.digitalocean.com/lewagon/rails-k8s-demo"
           echo ::set-output name=tagged_image::${IMAGE}:${TAG} 
           echo ::set-output name=tag::${TAG}
 
@@ -53,7 +53,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache
           build-args: |
             RUBY_VERSION=2.6.6
-            PG_MAJOR=12
+            PG_MAJOR=11
             NODE_MAJOR=12
             YARN_VERSION=1.22.5
             BUNDLER_VERSION=2.1.4

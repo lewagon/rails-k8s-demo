@@ -6,7 +6,7 @@ x-template-app: &template-app
     dockerfile: "Dockerfile.dev"
     args:
       RUBY_VERSION: 2.6.6
-      PG_MAJOR: 12
+      PG_MAJOR: 11
       NODE_MAJOR: 12
       YARN_VERSION: 1.22.5
       BUNDLER_VERSION: 2.1.4
@@ -23,8 +23,6 @@ x-template-app: &template-app
     - packs:/app/public/packs
     - packs-test:/app/public/packs-test
     - .seatrain/.pryrc:/root/.pryrc:ro
-    # TODO: REMOVE BEFORE RELEASE!
-    - ~/code/lewagon/seatrain:/root/code/lewagon/seatrain
   environment:
     - NODE_ENV=development
     - RAILS_ENV=${RAILS_ENV:-development}
@@ -72,7 +70,7 @@ services:
       - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
 
   postgres:
-    image: postgres:12
+    image: postgres:11
     volumes:
       - postgres:/var/lib/postgresql/data
       - "./log:/root/log:cached"
