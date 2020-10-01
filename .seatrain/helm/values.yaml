@@ -5,7 +5,7 @@ global:
     repository: registry.digitalocean.com/lewagon/rails-k8s-demo-seatrain
     tag: latest
     pullPolicy: Always
-    pullSecret: rails-k8s-demo-pull-secret
+    pullSecret: registry-lewagon
 
   rails:
     replicaCount: 1

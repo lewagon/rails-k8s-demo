@@ -2,7 +2,7 @@ name: Deploy
 on:
   push:
     branches:
-      - dev/seatrain
+      - master
 
 jobs:
   experiment:
@@ -30,16 +30,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
-      - name: Copy master key from a secret
-        run: echo ${{ secrets.RAILS_MASTER_KEY }} > config/master.key
-
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      - name: Log in to DigitalOcean Container Registry
+      - name: Log in to Digital Ocean Container Registry
         run: doctl registry login --expiry-seconds 600
+
+      - name: Copy master key from a secret
+        run: echo ${{ secrets.RAILS_MASTER_KEY }} > config/master.key
 
       - name: Build and push production image
         id: docker_build
@@ -75,5 +75,4 @@ jobs:
           --cleanup-on-fail
           --timeout=3m0s
           --set-string global.commonSecrets.DATABASE_URL=${{ secrets.DATABASE_URL }}
-          --set-string global.commonSecrets.MY_OTHER_SECRET=${{ secrets.MY_OTHER_SECRET }}
           --set-string global.image.tag=${{ steps.prep.outputs.tag }}

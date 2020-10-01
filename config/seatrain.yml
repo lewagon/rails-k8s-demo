@@ -14,6 +14,8 @@ use_webpacker: true
 # When deploying with `rails seatrain:release:deploy` you will be prompted for a password
 # to create a pull secret inside the cluster.
 docker_server: registry.digitalocean.com
+# A name of a private Digital Ocean Container Registry
+do_container_registry_name: lewagon
 # A name of the Digital Ocean cluster to be used for deployment.
 do_cluster_name: seatrain-test
 # A full name of the production image to be used inside the cluster (e.g., quay.io/account_name/image_name).
@@ -27,7 +29,10 @@ production_image_name: "registry.digitalocean.com/lewagon/rails-k8s-demo-seatrai
 hostname: "seatrain-test.lewagon.co"
 # An email for Let's Encrypt certificate reminders.
 certificate_email: "andrey@lewagon.org"
-# Kubernetes secrets that your Rails and Sidekiq pods will rely on.
+# Names of Kubernetes secret values that your Rails and Sidekiq pods will rely on.
+# You will be interactively prompted for each value when running `rails seatrain:release:deploy`.
+# You will need to set the same names as secrets in your GitHub repository settings to use Github Actions deployment.
+# Names should be in UPPER CASE.
 required_secrets:
   - DATABASE_URL
 # Additional apt packages to be added to Docker containers
