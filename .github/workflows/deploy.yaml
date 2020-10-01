@@ -14,7 +14,7 @@ jobs:
         id: prep
         run: |
           TAG=$(echo $GITHUB_SHA | head -c7)
-          IMAGE="quay.io/lewagon/rails-k8s-demo-seatrain"
+          IMAGE="registry.digitalocean.com/lewagon/rails-k8s-demo-seatrain"
           echo ::set-output name=tagged_image::${IMAGE}:${TAG} 
           echo ::set-output name=tag::${TAG}
 
@@ -30,15 +30,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
-      - name: Login to container registry
-        uses: docker/login-action@v1
-        with:
-          registry: quay.io
-          username: progapandist
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
       - name: Copy master key from a secret
         run: echo ${{ secrets.RAILS_MASTER_KEY }} > config/master.key
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Log in to DigitalOcean Container Registry
+        run: doctl registry login --expiry-seconds 600
 
       - name: Build and push production image
         id: docker_build
@@ -57,17 +58,11 @@ jobs:
             YARN_VERSION=1.22.5
             BUNDLER_VERSION=2.1.4
 
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-
       - name: Save DigitalOcean kubeconfig
-        run: doctl kubernetes cluster kubeconfig show seatrain-test > $GITHUB_WORKSPACE/.kubeconfig
+        run: doctl kubernetes cluster kubeconfig save seatrain-test
 
       - name: Deploy to cluster
         run: >
-          export KUBECONFIG=$GITHUB_WORKSPACE/.kubeconfig &&
           helm
           upgrade
           rails-k8s-demo

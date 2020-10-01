@@ -1,17 +1,34 @@
+# Set versions for Ruby, Postgres, Node, Yarn and Bundler
+# They will be used inside development and production containers.
 ruby_version: 2.6.6
 pg_major_version: 12
 node_major_version: 12
 yarn_version: 1.22.5
 bundler_version: 2.1.4
+# Change to false if you are not using Sidekiq or Webpacker with your app.
 use_sidekiq: true
 use_webpacker: true
-docker_server: quay.io
-docker_login: progapandist
+# Set the server and login name for your container registry.
+# To build and push from local machine you need to make sure you are logged into Docker
+# with the same credentials (`docker login`)
+# When deploying with `rails seatrain:release:deploy` you will be prompted for a password
+# to create a pull secret inside the cluster.
+docker_server: registry.digitalocean.com
+# A name of the Digital Ocean cluster to be used for deployment.
 do_cluster_name: seatrain-test
-production_image_name: "quay.io/lewagon/rails-k8s-demo-seatrain"
+# A full name of the production image to be used inside the cluster (e.g., quay.io/account_name/image_name).
+# Will be used to push the production image during the deploy.
+# Generated Helm configuration will expect this image too.
+production_image_name: "registry.digitalocean.com/lewagon/rails-k8s-demo-seatrain"
+# A domain name which will point to your application in production.
+# Make sure the DNS A-record points to Digital Ocean's Load Balancer.
+# The Load Balancer will be created for you automatically after running `rails g seatrain cluster:prepare`.
+# Don't include http(s)://
 hostname: "seatrain-test.lewagon.co"
+# An email for Let's Encrypt certificate reminders.
 certificate_email: "andrey@lewagon.org"
+# Kubernetes secrets that your Rails and Sidekiq pods will rely on.
 required_secrets:
   - DATABASE_URL
-  - MY_OTHER_SECRET
+# Additional apt packages to be added to Docker containers
 with_apt_packages: ["vim", "ruby-hiredis", "redis-tools", "libidn11-dev"]

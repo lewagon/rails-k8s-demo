@@ -2,7 +2,7 @@ global:
   fullnameOverride: rails-k8s-demo
 
   image:
-    repository: quay.io/lewagon/rails-k8s-demo-seatrain
+    repository: registry.digitalocean.com/lewagon/rails-k8s-demo-seatrain
     tag: latest
     pullPolicy: Always
     pullSecret: rails-k8s-demo-pull-secret
