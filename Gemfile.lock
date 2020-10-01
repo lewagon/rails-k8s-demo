@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/lewagon/seatrain
-  revision: 36bad99a3879c0d3d619f081ce48a25f46b8785e
+  revision: 61963a642fbc5f50b2bad110d28d574b8c1aa91e
   branch: dev
   specs:
     seatrain (0.1.0)
