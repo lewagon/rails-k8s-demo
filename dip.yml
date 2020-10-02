@@ -1,0 +1,110 @@
+# Run eval "$(dip console)" in open terminal tab to not have to to prepend
+# commands with `dip`:
+# `dip rails c` -> `rails c`
+
+# Required minimum dip version
+version: "4.1"
+
+environment:
+  COMPOSE_EXT: development
+
+compose:
+  files:
+    - docker-compose.yml
+
+interaction:
+  bash:
+    description: Open the Bash shell in rails container
+    service: app
+    command: bash
+    compose:
+      run_options: [no-deps]
+
+  bundle:
+    description: Run Bundler commands
+    service: app
+    command: bundle
+
+  yarn:
+    description: Run Yarn commands
+    service: app
+    command: yarn
+
+  rails:
+    description: Run Rails commands
+    service: app
+    command: bundle exec rails
+    subcommands:
+      s:
+        description: Run Rails server at http://localhost:3000
+        service: rails
+        compose:
+          run_options: [service-ports, use-aliases]
+      s-altport:
+        description: Run Rails server at select port `dip run -p 5000:3000 rails s-altport`
+        service: rails
+        compose:
+          run_options: [use-aliases]
+      logs:
+        description: Display last 200 lines of Rails logs and follow
+        service: rails
+        compose:
+          method: logs
+          run_options: [follow, tail='200']
+
+  rake:
+    description: Run Rake commands
+    service: app
+    command: bundle exec rake
+
+  rspec:
+    description: Run Rspec commands
+    service: app
+    environment:
+      RAILS_ENV: test
+    command: .seatrain/vnc.sh bundle exec rspec --format=documentation
+    compose:
+      run_options: ["publish=5900:5900"]
+
+  sidekiq:
+    description: Run commands in sidekiq container
+    service: sidekiq
+    compose:
+      method: run
+    subcommands:
+      logs:
+        description: "Display last 200 lines of Sidekiq logs and follow"
+        compose:
+          method: logs
+          run_options: [follow, tail='200']
+
+  webpacker:
+    description: Run commands towards Webpacker service
+    service: webpacker
+    subcommands:
+      logs:
+        description: Display last 200 lines of Webpacker logs and follow
+        compose:
+          method: logs
+          run_options: [follow, tail='200']
+    compose:
+      run_options: [service-ports, use-aliases]
+
+  psql:
+    description: Run Postgres psql console
+    service: app
+    default_args: db_development
+    command: psql -h postgres -U postgres
+
+  redis-cli:
+    description: Run Redis CLI
+    service: app
+    command: redis-cli -u redis://redis:6379/
+
+provision:
+  - docker-compose down --volumes
+  - docker-compose up -d postgres redis
+  - docker-compose up -d --build app
+  - dip bundle install
+  - dip yarn install
+  - dip rails db:drop db:create db:migrate

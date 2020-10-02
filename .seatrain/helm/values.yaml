@@ -1,0 +1,55 @@
+global:
+  fullnameOverride: rails-k8s-demo
+
+  image:
+    repository: registry.digitalocean.com/lewagon/rails-k8s-demo
+    tag: latest
+    pullPolicy: Always
+    pullSecret: registry-lewagon
+
+  rails:
+    replicaCount: 1
+    # resources: {}
+    # livenessProbe: {}
+    # readinessProbe: {}
+    # nodeSelector: {}
+    # tolerations: []
+    # affinity: {}
+    # podSecurityContext: {}
+    # securityContext: {}
+
+  sidekiq:
+    replicaCount: 1
+    # resources: {}
+    # livenessProbe: {}
+    # readinessProbe: {}
+    # nodeSelector: {}
+    # tolerations: []
+    # affinity: {}
+    # podSecurityContext: {}
+    # securityContext: {}
+
+  # ENV variables declared here will be set for both Rails and Sidekiq pods
+  commonEnv: {}
+
+  db:
+    prepareJob:
+      enabled: true
+      command: "rails db:prepare"
+
+  https:
+    enabled: true
+    certificateEmail: andrey@lewagon.org
+
+  ingress:
+    hosts:
+      - host: seatrain.lewagon.co
+
+redis:
+  cluster:
+    enabled: false
+    slaveCount: 2
+  usePassword: false
+  # By default, FLUSH and FLUSHALL are disabled in bitnami/redis chart
+  master:
+    disableCommands: []

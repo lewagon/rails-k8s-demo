@@ -1,0 +1,47 @@
+# Set versions for Ruby, Postgres, Node, Yarn and Bundler
+# They will be used inside development and production containers.
+ruby_version: 2.6.6
+pg_major_version: 11
+node_major_version: 12
+yarn_version: 1.22.5
+bundler_version: 2.1.4
+
+# Additional apt packages to add into Docker containers (both development and production)
+with_apt_packages:
+  - vim
+  - redis-tools
+  - libidn11-dev
+
+# Change to false if you are not using Sidekiq or Webpacker with your app.
+use_sidekiq: true
+use_webpacker: true
+
+# Set the server for your container registry.
+# To build and push from local machine you need to make sure you are logged into registry locally (`docker login`)
+# When deploying with `rails seatrain:release:deploy` you will be prompted for any missing data
+# that is required to create a pull secret inside the cluster.
+docker_registry: registry.digitalocean.com
+docker_repository: lewagon
+
+# A full name of the production image to be used inside the cluster (e.g., quay.io/account_name/image_name).
+# Will be used to push the production image during the deploy.
+# Generated Helm configuration will expect this image too.
+production_image_name: registry.digitalocean.com/lewagon/rails-k8s-demo
+
+# A name of the Digital Ocean cluster to be used for deployment.
+do_cluster_name: seatrain
+
+# A domain name which will point to your application in production.
+# Make sure the DNS A-record points to Digital Ocean's Load Balancer.
+# The Load Balancer will be created for you automatically after running `rails g seatrain cluster:prepare`.
+# Don't include http(s)://
+hostname: seatrain.lewagon.co
+# An email for Let's Encrypt certificate reminders.
+certificate_email: andrey@lewagon.org
+
+# Names of Kubernetes secret values that your Rails and Sidekiq pods will rely on.
+# You will be interactively prompted for each value when running `rails seatrain:release:deploy`.
+# You will need to set the same names as secrets in your GitHub repository settings to use Github Actions deployment.
+# Names should be in UPPER CASE.
+required_secrets:
+  - DATABASE_URL

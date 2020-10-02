@@ -1,0 +1,14 @@
+apiVersion: v2
+name: rails-k8s-demo
+description: Rails application chart
+type: application
+version: 0.1.0
+appVersion: 1.0
+
+dependencies:
+  - name: redis
+    version: 10.2.1
+    repository: "@stable"
+  - name: seatrain-base
+    version: 0.1.0
+    repository: "https://lewagon.github.io/seatrain/"
