@@ -38,7 +38,7 @@ group :development, :test do
 end
 
 group :development do
-  gem "seatrain", git: "https://github.com/lewagon/seatrain", branch: "dev" # path: "~/code/lewagon/seatrain"  
+  gem "seatrain", git: "https://github.com/lewagon/seatrain" # path: "~/code/lewagon/seatrain"  
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem "web-console", ">= 3.3.0"
   gem "listen", ">= 3.0.5", "< 3.2"
