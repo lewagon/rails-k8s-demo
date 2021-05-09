@@ -11,6 +11,19 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrad
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
   truncate -s 0 /var/log/*log
 
+# Install MIME TYPES
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrade && \
+DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+  shared-mime-info \
+&& cp /usr/share/mime/packages/freedesktop.org.xml ./ \
+&& apt-get remove -y --purge shared-mime-info \
+&& apt-get clean \
+&& rm -rf /var/cache/apt/archives/* \
+&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+&& truncate -s 0 /var/log/*log \
+&& mkdir -p /usr/share/mime/packages \
+&& cp ./freedesktop.org.xml /usr/share/mime/packages/
+
 # Configure bundler
 ENV LANG=C.UTF-8 \
   BUNDLE_JOBS=4 \
